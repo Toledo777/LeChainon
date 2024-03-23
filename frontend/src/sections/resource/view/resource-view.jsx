@@ -14,18 +14,18 @@ import PostSearch from '../post-search';
 
 // ----------------------------------------------------------------------
 
-export default function BlogView() {
+export default function ResourceView() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Blog</Typography>
+        <Typography variant="h4">Resources</Typography>
 
         <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          New Post
+          New Resource
         </Button>
       </Stack>
 
-      <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
+      {/* <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
         <PostSearch posts={posts} />
         <PostSort
           options={[
@@ -34,7 +34,7 @@ export default function BlogView() {
             { value: 'oldest', label: 'Oldest' },
           ]}
         />
-      </Stack>
+      </Stack> */}
 
       <Grid container spacing={3}>
         {posts.map((post, index) => (

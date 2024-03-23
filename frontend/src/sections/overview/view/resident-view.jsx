@@ -8,8 +8,6 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
-import Iconify from 'src/components/iconify';
-
 import AppTasks from '../app-tasks';
 import AppNewsUpdate from '../app-news-update';
 import AppOrderTimeline from '../app-order-timeline';
@@ -18,18 +16,23 @@ import AppWidgetSummary from '../app-widget-summary';
 import AppTrafficBySite from '../app-traffic-by-site';
 import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from '../app-conversion-rates';
-
+import Iconify from '../../../components/iconify/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function AppView() {
+
+export default function ResidentView() {
     const [value, onChange] = useState(new Date());
     // eslint-disable-next-line no-unused-vars
     const state = {
       'date': '04-03-2024'
     }
 
-  const mark = ['08-05-2024', '03-03-2024', '05-03-2024'];
+    const mark = [
+      '08-05-2024',
+      '03-03-2024',
+      '05-03-2024'
+  ]
 
   return (
     <Container maxWidth="xl">
@@ -40,8 +43,8 @@ export default function AppView() {
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Weekly Sales"
-            total={714000}
+            title="Current Days in Stay"
+            total={5}
             color="success"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
@@ -49,8 +52,8 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="New Users"
-            total={1352831}
+            title="Days working on current plan"
+            total={4}
             color="info"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
           />
@@ -58,7 +61,7 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Item Orders"
+            title="Tasks Completed"
             total={1723315}
             color="warning"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
@@ -67,14 +70,14 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Bug Reports"
+            title="Tasks TO-DO"
             total={234}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
+        {/* <Grid xs={12} md={6} lg={8}>
           <AppWebsiteVisits
             title="Website Visits"
             subheader="(+43%) than last year"
@@ -114,7 +117,7 @@ export default function AppView() {
               ],
             }}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid xs={12} md={6} lg={4}>
           <Calendar
@@ -123,18 +126,18 @@ export default function AppView() {
             value={value}
             // eslint-disable-next-line consistent-return
             tileClassName={({ date, view }) => {
-              if (mark.find((x) => x === moment(date).format('DD-MM-YYYY'))) {
-                return 'highlight';
+                if(mark.find(x => x === moment(date).format("DD-MM-YYYY"))) {
+                return  'highlight'
               }
-              // Add a return statement for the case where the condition above is not met
-              return ''; // You may adjust this return value based on your requirements
             }}
-            tileDisabled={({ date }) => date.getDay() === 0}
-            minDate={new Date()}
-          />
+              tileDisabled={({ date }) => date.getDay() === 0}
+              minDate={
+                new Date()
+              }
+            />
         </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
+        {/* <Grid xs={12} md={6} lg={8}>
           <AppConversionRates
             title="Conversion Rates"
             subheader="(+43%) than last year"
@@ -153,9 +156,9 @@ export default function AppView() {
               ],
             }}
           />
-        </Grid>
+        </Grid> */}
 
-        <Grid xs={12} md={6} lg={4}>
+        {/* <Grid xs={12} md={6} lg={4}>
           <AppCurrentSubject
             title="Current Subject"
             chart={{
@@ -167,7 +170,7 @@ export default function AppView() {
               ],
             }}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid xs={12} md={6} lg={8}>
           <AppNewsUpdate
@@ -184,7 +187,7 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppOrderTimeline
-            title="Order Timeline"
+            title="Appartment"
             list={[...Array(5)].map((_, index) => ({
               id: faker.string.uuid(),
               title: [
@@ -201,6 +204,53 @@ export default function AppView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
+          <AppOrderTimeline
+            title="Greatly reduce alcohol consumption and quit Smoking"
+            list={[...Array(2)].map((_, index) => ({
+              id: faker.string.uuid(),
+              title: [
+                'Leave alcohol in the office',
+                'Become of aware or alcohol consuption and risk factors that lead to it',
+              ][index],
+              type: `order${index + 1}`,
+              time: '',
+            }))}
+          />
+        </Grid>
+
+        <Grid xs={12} md={6} lg={4}>
+          <AppOrderTimeline
+            title="Payment of Tickets, Fines and Debts"
+            list={[...Array(2)].map((_, index) => ({
+              id: faker.string.uuid(),
+              title: [
+                'Make arrangments with various authorities with debt',
+                'Take steps to find info on the total prices',
+
+              ][index],
+              type: `order${index + 1}`,
+              time: '',
+            }))}
+          />
+        </Grid>
+
+        <Grid xs={12} md={6} lg={4}>
+          <AppOrderTimeline
+            title="Start Hockey Training and Join Team"
+            list={[...Array(3)].map((_, index) => ({
+              id: faker.string.uuid(),
+              title: [
+                'Approach sports organizations to obtain necessary equipment',
+                'Obtain sources of funding if possible',
+                'Conduct research related to sports activities',
+              ][index],
+              type: `order${index + 1}`,
+              time: '',
+            }))}
+          />
+        </Grid>
+
+        {/* <Grid xs={12} md={6} lg={4}>
           <AppTrafficBySite
             title="Traffic by Site"
             list={[
@@ -226,17 +276,17 @@ export default function AppView() {
               },
             ]}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid xs={12} md={6} lg={8}>
           <AppTasks
-            title="Tasks"
+            title="Goal Task Tracking"
             list={[
-              { id: '1', name: 'Create FireStone Logo' },
-              { id: '2', name: 'Add SCSS and JS files if required' },
-              { id: '3', name: 'Stakeholder Meeting' },
-              { id: '4', name: 'Scoping & Estimations' },
-              { id: '5', name: 'Sprint Showcase' },
+              { id: '1', name: 'Read a book on quitting cigarettes' },
+              { id: '2', name: 'Register for house activities: dance, sports, yoga' },
+              { id: '3', name: 'Sign up for legal clinic' },
+              { id: '4', name: 'Make appointment with legal clinic' },
+       
             ]}
           />
         </Grid>

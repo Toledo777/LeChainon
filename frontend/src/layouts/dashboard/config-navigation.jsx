@@ -13,6 +13,11 @@ const navConfig = [
     icon: icon('ic_analytics'),
   },
   {
+    title: 'residentdash',
+    path: '/resident-dash',
+    icon: icon('ic_analytics'),
+  },
+  {
     title: 'user',
     path: '/user',
     icon: icon('ic_user'),
@@ -23,8 +28,8 @@ const navConfig = [
     icon: icon('ic_cart'),
   },
   {
-    title: 'blog',
-    path: '/blog',
+    title: 'resources',
+    path: '/resource',
     icon: icon('ic_blog'),
   },
   {

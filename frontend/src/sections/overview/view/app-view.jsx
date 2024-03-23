@@ -1,30 +1,29 @@
-import { useState } from 'react';
-import { faker } from '@faker-js/faker';
 import moment from 'moment';
+import { useState } from 'react';
+import Calendar from 'react-calendar';
+import { faker } from '@faker-js/faker';
+import 'react-calendar/dist/Calendar.css';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
-import Iconify from 'src/components/iconify';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-
 import AppTasks from '../app-tasks';
 import AppNewsUpdate from '../app-news-update';
 import AppOrderTimeline from '../app-order-timeline';
-import AppCurrentVisits from '../app-current-visits';
 import AppWebsiteVisits from '../app-website-visits';
 import AppWidgetSummary from '../app-widget-summary';
 import AppTrafficBySite from '../app-traffic-by-site';
 import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from '../app-conversion-rates';
+import Iconify from '../../../components/iconify/iconify';
 
 // ----------------------------------------------------------------------
 
 
 export default function AppView() {
     const [value, onChange] = useState(new Date());
+    // eslint-disable-next-line no-unused-vars
     const state = {
       'date': '04-03-2024'
     }
@@ -125,6 +124,7 @@ export default function AppView() {
             style={{ height: 500 }}
             onChange={onChange}
             value={value}
+            // eslint-disable-next-line consistent-return
             tileClassName={({ date, view }) => {
                 if(mark.find(x => x === moment(date).format("DD-MM-YYYY"))) {
                 return  'highlight'

@@ -10,7 +10,6 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { useNavigate } from 'react-router-dom';
 
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
@@ -26,21 +25,15 @@ export default function UserTableRow({
   isVerified,
   status,
   handleClick,
-  onViewProfile,
 }) {
   const [open, setOpen] = useState(null);
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
-  const navigate = useNavigate();
+
   const handleCloseMenu = () => {
     setOpen(null);
-  };
-  const handleViewProfile = () => {
-    onViewProfile(); 
-    navigate('/user/residentInDetail');
-    handleCloseMenu();
   };
 
   return (
@@ -62,13 +55,13 @@ export default function UserTableRow({
         <TableCell>{company}</TableCell>
 
         <TableCell>{role}</TableCell>
-        <TableCell>{role}</TableCell>
+
         <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
 
         <TableCell>
           <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
         </TableCell>
-        
+
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
@@ -86,14 +79,14 @@ export default function UserTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleViewProfile}>
+        <MenuItem onClick={handleCloseMenu}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          View Profile
+          Edit
         </MenuItem>
 
         <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit Profile
+          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
+          Delete
         </MenuItem>
       </Popover>
     </>
@@ -109,5 +102,4 @@ UserTableRow.propTypes = {
   role: PropTypes.any,
   selected: PropTypes.any,
   status: PropTypes.string,
-  onViewProfile: PropTypes.func.isRequired,
 };

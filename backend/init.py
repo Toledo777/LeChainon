@@ -8,9 +8,17 @@ def create_app():
     from caregivers.routes import caregivers_bp
     from event_calendar.routes import calendar_bp
 
+    from housing.routes import housing_bp
+    from top_tiles.routes import top_tiles_bp
+    from housing_placements.routes import housing_placements_bp
+
     app.register_blueprint(user_auth_bp)
     app.register_blueprint(residents_bp)
     app.register_blueprint(caregivers_bp)
     app.register_blueprint(calendar_bp)
+
+    app.register_blueprint(housing_bp)
+    app.register_blueprint(top_tiles_bp)
+    app.register_blueprint(housing_placements_bp)
 
     return app

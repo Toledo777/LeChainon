@@ -20,7 +20,7 @@ export default function AppConversionRates({ title, subheader, chart, ...other }
     tooltip: {
       marker: { show: false },
       y: {
-        formatter: (value) => fNumber(value),
+        formatter: (value) => fNumber(value*100),
         title: {
           formatter: () => '',
         },

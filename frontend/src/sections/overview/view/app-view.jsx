@@ -25,6 +25,19 @@ import AppConversionRates from '../app-conversion-rates';
 
 export default function AppView() {
     const [value, onChange] = useState(new Date());
+    const [username, setUsername] = useState("John Doe")
+    const [residentNum, setResidentNum] = useState(150);
+    const [caretakerNum, setCaretakertNum] = useState(50);
+    const [firstTimers, setFirstTimers] = useState(38);
+    const [housingOccupancy, setHouseOccupancy] = useState({
+      emergency: { name: "Emergency Housing", capacity: 15, occupied: 5 },
+      short: { name: "Short Stay", capacity: 21, occupied: 20 },
+      transition: { name: "Transition Unit", capacity: 15, occupied: 13 },
+      yvonne: { name: "Yvonne Maisonneuve House", capacity: 15, occupied: 15 },
+      sainteMarie: { name: "Sainte-Marie House", capacity: 49, occupied: 43 },
+      annexe: { name: "The Annexe", capacity: 25, occupied: 20 },
+    });
+
     const state = {
       'date': '04-03-2024'
     }
@@ -38,43 +51,43 @@ export default function AppView() {
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi, Welcome back 👋
+        Hi {username}, Welcome back 👋
       </Typography>
 
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Weekly Sales"
-            total={714000}
-            color="success"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-          />
-        </Grid>
-
-        <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="New Users"
-            total={1352831}
+            title="Number of Residents"
+            total={residentNum}
             color="info"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_user.png" />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Item Orders"
-            total={1723315}
-            color="warning"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+            title="Number of Caretakers"
+            total={caretakerNum}
+            color="info"
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_caretaker.png" />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Bug Reports"
-            total={234}
-            color="error"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+            title={(residentNum/caretakerNum > 1) ? "Caretakers Per Resident" : "Caretaker Per Resident"}
+            total={residentNum/caretakerNum}
+            color="info"
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_ratio.png" />}
+          />
+        </Grid>
+
+        <Grid xs={12} sm={6} md={3}>
+          <AppWidgetSummary
+            title={(firstTimers > 1) ? "First Time Residents" : "First Time Resident"}
+            total={firstTimers}
+            color="info"
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_firsttimer.png" />}
           />
         </Grid>
 
@@ -142,20 +155,16 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppConversionRates
-            title="Conversion Rates"
-            subheader="(+43%) than last year"
+            title="Occupation Rate for Each Housing Category"
+            subheader="(+10%) average than last year"
             chart={{
               series: [
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
+                { label: housingOccupancy.emergency.name, value: housingOccupancy.emergency.occupied / housingOccupancy.emergency.capacity },
+                { label: housingOccupancy.short.name, value: housingOccupancy.short.occupied / housingOccupancy.short.capacity },
+                { label: housingOccupancy.transition.name, value: housingOccupancy.transition.occupied / housingOccupancy.transition.capacity },
+                { label: housingOccupancy.yvonne.name, value: housingOccupancy.yvonne.occupied / housingOccupancy.yvonne.capacity },
+                { label: housingOccupancy.sainteMarie.name, value: housingOccupancy.sainteMarie.occupied / housingOccupancy.sainteMarie.capacity },
+                { label: housingOccupancy.annexe.name, value: housingOccupancy.annexe.occupied / housingOccupancy.annexe.capacity },
               ],
             }}
           />

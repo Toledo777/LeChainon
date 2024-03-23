@@ -7,9 +7,9 @@ housing_bp = Blueprint("housing", __name__, url_prefix="/housing")
 @housing_bp.route("/update", methods=["POST"])
 def update_housing():
     data={
-        "available_space": request.form.get("available_space"),
-        "avg_length_stay": request.form.get("avg_length_stay"),
-        "occupation_rate": request.form.get("occupation_rate")
+        "name": request.form.get("name"),
+        "capacity": request.form.get("capacity"),
+        "occupancy": request.form.get("occupancy")
     }
     db.collection("housing").add(data)
     return jsonify({"message": "Success!"}), 200

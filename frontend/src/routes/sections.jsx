@@ -27,11 +27,12 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'resource', element: <ResourcePage /> },
+        { path: 'resident-dash', element: <ResidentDash />}
       ],
     },
     {
       path: 'resident-dash',
-      element: <ResidentDash/>
+      element: <ResidentDash />
     },
     {
       path: 'login',

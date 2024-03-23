@@ -13,6 +13,11 @@ const navConfig = [
     icon: icon('ic_analytics'),
   },
   {
+    title: 'residentdash',
+    path: '/resident-dash',
+    icon: icon('ic_lock'),
+  },
+  {
     title: 'user',
     path: '/user',
     icon: icon('ic_user'),
@@ -30,11 +35,6 @@ const navConfig = [
   {
     title: 'login',
     path: '/login',
-    icon: icon('ic_lock'),
-  },
-  {
-    title: 'residentdash',
-    path: '/resident-dash',
     icon: icon('ic_lock'),
   },
   {

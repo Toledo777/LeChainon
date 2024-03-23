@@ -11,6 +11,10 @@ def create_app():
     from info_statistics.routes import statistics_bp
     from goals.routes import goals_bp
 
+    from housing.routes import housing_bp
+    from top_tiles.routes import top_tiles_bp
+    from housing_placements.routes import housing_placements_bp
+
     app.register_blueprint(user_auth_bp)
     app.register_blueprint(residents_bp)
     app.register_blueprint(caregivers_bp)
@@ -18,5 +22,9 @@ def create_app():
     app.register_blueprint(intervention_bp)
     app.register_blueprint(statistics_bp)
     app.register_blueprint(goals_bp)
+
+    app.register_blueprint(housing_bp)
+    app.register_blueprint(top_tiles_bp)
+    app.register_blueprint(housing_placements_bp)
 
     return app

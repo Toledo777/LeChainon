@@ -8,6 +8,8 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
+import Iconify from 'src/components/iconify';
+
 import AppTasks from '../app-tasks';
 import AppNewsUpdate from '../app-news-update';
 import AppOrderTimeline from '../app-order-timeline';
@@ -20,7 +22,6 @@ import Iconify from '../../../components/iconify/iconify';
 
 // ----------------------------------------------------------------------
 
-
 export default function AppView() {
     const [value, onChange] = useState(new Date());
     // eslint-disable-next-line no-unused-vars
@@ -28,11 +29,7 @@ export default function AppView() {
       'date': '04-03-2024'
     }
 
-    const mark = [
-      '08-05-2024',
-      '03-03-2024',
-      '05-03-2024'
-  ]
+  const mark = ['08-05-2024', '03-03-2024', '05-03-2024'];
 
   return (
     <Container maxWidth="xl">
@@ -126,18 +123,15 @@ export default function AppView() {
             value={value}
             // eslint-disable-next-line consistent-return
             tileClassName={({ date, view }) => {
-                if(mark.find(x => x === moment(date).format("DD-MM-YYYY"))) {
-                return  'highlight'
+              if (mark.find((x) => x === moment(date).format('DD-MM-YYYY'))) {
+                return 'highlight';
               }
+              // Add a return statement for the case where the condition above is not met
+              return ''; // You may adjust this return value based on your requirements
             }}
-
-
-              tileDisabled={({ date }) => date.getDay() === 0}
-
-              minDate={
-                new Date()
-              }
-            />
+            tileDisabled={({ date }) => date.getDay() === 0}
+            minDate={new Date()}
+          />
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>

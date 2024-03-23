@@ -77,7 +77,7 @@ export default function ResidentView() {
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
+        {/* <Grid xs={12} md={6} lg={8}>
           <AppWebsiteVisits
             title="Website Visits"
             subheader="(+43%) than last year"
@@ -117,7 +117,7 @@ export default function ResidentView() {
               ],
             }}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid xs={12} md={6} lg={4}>
           <Calendar
@@ -140,7 +140,7 @@ export default function ResidentView() {
             />
         </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
+        {/* <Grid xs={12} md={6} lg={8}>
           <AppConversionRates
             title="Conversion Rates"
             subheader="(+43%) than last year"
@@ -159,7 +159,7 @@ export default function ResidentView() {
               ],
             }}
           />
-        </Grid>
+        </Grid> */}
 
         {/* <Grid xs={12} md={6} lg={4}>
           <AppCurrentSubject
@@ -208,18 +208,47 @@ export default function ResidentView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppOrderTimeline
-            title="Appartment"
-            list={[...Array(5)].map((_, index) => ({
+            title="Greatly reduce alcohol consumption and quit Smoking"
+            list={[...Array(2)].map((_, index) => ({
               id: faker.string.uuid(),
               title: [
-                '1983, orders, $4220',
-                '12 Invoices have been paid',
-                'Order #37745 from September',
-                'New order placed #XF-2356',
-                'New order placed #XF-2346',
+                'Leave alcohol in the office',
+                'Become of aware or alcohol consuption and risk factors that lead to it',
               ][index],
               type: `order${index + 1}`,
-              time: faker.date.past(),
+              time: '',
+            }))}
+          />
+        </Grid>
+
+        <Grid xs={12} md={6} lg={4}>
+          <AppOrderTimeline
+            title="Payment of Tickets, Fines and Debts"
+            list={[...Array(2)].map((_, index) => ({
+              id: faker.string.uuid(),
+              title: [
+                'Make arrangments with various authorities with debt',
+                'Take steps to find info on the total prices',
+
+              ][index],
+              type: `order${index + 1}`,
+              time: '',
+            }))}
+          />
+        </Grid>
+
+        <Grid xs={12} md={6} lg={4}>
+          <AppOrderTimeline
+            title="Start Hockey Training and Join Team"
+            list={[...Array(3)].map((_, index) => ({
+              id: faker.string.uuid(),
+              title: [
+                'Approach sports organizations to obtain necessary equipment',
+                'Obtain sources of funding if possible',
+                'Conduct research related to sports activities',
+              ][index],
+              type: `order${index + 1}`,
+              time: '',
             }))}
           />
         </Grid>
@@ -254,7 +283,7 @@ export default function ResidentView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppTasks
-            title="Goal Tracking"
+            title="Goal Task Tracking"
             list={[
               { id: '1', name: 'Read a book on quitting cigarettes' },
               { id: '2', name: 'Register for house activities: dance, sports, yoga' },

@@ -10,6 +10,7 @@ def create_app():
     from intervention.routes import intervention_bp
     from info_statistics.routes import statistics_bp
     from goals.routes import goals_bp
+    from resources.routes import resources_bp
 
     from housing.routes import housing_bp
     from top_tiles.routes import top_tiles_bp
@@ -32,5 +33,6 @@ def create_app():
 
     app.register_blueprint(manager_bp)
     app.register_blueprint(audit_trail_bp)
+    app.register_blueprint(resources_bp)
 
     return app

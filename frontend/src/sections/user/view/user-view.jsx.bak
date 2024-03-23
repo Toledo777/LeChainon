@@ -20,7 +20,6 @@ import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
-import ResidentInDetailPage from '../residentInDetailView/resident-in-detail-view';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
 // ----------------------------------------------------------------------
@@ -37,8 +36,6 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const [showProfile, setShowProfile] = useState(false); 
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -89,10 +86,6 @@ export default function UserPage() {
     setFilterName(event.target.value);
   };
 
-  const handleViewProfile = () => {
-    setShowProfile(true); 
-  };
-
   const dataFiltered = applyFilter({
     inputData: users,
     comparator: getComparator(order, orderBy),
@@ -103,8 +96,6 @@ export default function UserPage() {
 
   return (
     <Container>
-        {!showProfile ? (
-          <>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Users</Typography>
 
@@ -131,11 +122,10 @@ export default function UserPage() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'residentname', label: 'Resident Name' },
-                  { id: 'accomodation', label: 'Accomodation Unit' },
-                  { id: 'stayStartDate', label: 'Stay Start Date' },
-                  { id: 'stayEndDate', label: 'Stay End Date' },
-                  { id: 'CareTakerName', label: 'CareTaker Assigned', align: 'center' },
+                  { id: 'name', label: 'Name' },
+                  { id: 'company', label: 'Company' },
+                  { id: 'role', label: 'Role' },
+                  { id: 'isVerified', label: 'Verified', align: 'center' },
                   { id: 'status', label: 'Status' },
                   { id: '' },
                 ]}
@@ -154,7 +144,6 @@ export default function UserPage() {
                       isVerified={row.isVerified}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
-                      onViewProfile={handleViewProfile}
                     />
                   ))}
 
@@ -179,10 +168,6 @@ export default function UserPage() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Card>
-      </>
-      ) : (
-        <ResidentInDetailPage />
-      )}
     </Container>
   );
 }

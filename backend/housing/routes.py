@@ -3,7 +3,7 @@ from firebase.config import db
 
 housing_bp = Blueprint("housing", __name__, url_prefix="/housing")
 
-# Updating housing availability data
+# Update housing availability data
 @housing_bp.route("/update", methods=["POST"])
 def update_housing():
     data={
@@ -14,7 +14,7 @@ def update_housing():
     db.collection("housing").add(data)
     return jsonify({"message": "Success!"}), 200
 
-# Fetching housing availability data 
+# Fetch housing availability data 
 @housing_bp.route("/get-housing-data", methods=["GET"])
 def get_housing_data():
     docs_ref = db.collection("housing").stream()

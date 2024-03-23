@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { faker } from '@faker-js/faker';
 import moment from 'moment';
+import { useState } from 'react';
+import Calendar from 'react-calendar';
+import { faker } from '@faker-js/faker';
+import 'react-calendar/dist/Calendar.css';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
 import Iconify from 'src/components/iconify';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
 
 import AppTasks from '../app-tasks';
 import AppNewsUpdate from '../app-news-update';
@@ -22,18 +22,13 @@ import AppConversionRates from '../app-conversion-rates';
 
 // ----------------------------------------------------------------------
 
-
 export default function AppView() {
-    const [value, onChange] = useState(new Date());
-    const state = {
-      'date': '04-03-2024'
-    }
+  const [value, onChange] = useState(new Date());
+  const state = {
+    date: '04-03-2024',
+  };
 
-    const mark = [
-      '08-05-2024',
-      '03-03-2024',
-      '05-03-2024'
-  ]
+  const mark = ['08-05-2024', '03-03-2024', '05-03-2024'];
 
   return (
     <Container maxWidth="xl">
@@ -126,18 +121,15 @@ export default function AppView() {
             onChange={onChange}
             value={value}
             tileClassName={({ date, view }) => {
-                if(mark.find(x => x === moment(date).format("DD-MM-YYYY"))) {
-                return  'highlight'
+              if (mark.find((x) => x === moment(date).format('DD-MM-YYYY'))) {
+                return 'highlight';
               }
+              // Add a return statement for the case where the condition above is not met
+              return ''; // You may adjust this return value based on your requirements
             }}
-
-
-              tileDisabled={({ date }) => date.getDay() === 0}
-
-              minDate={
-                new Date()
-              }
-            />
+            tileDisabled={({ date }) => date.getDay() === 0}
+            minDate={new Date()}
+          />
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>

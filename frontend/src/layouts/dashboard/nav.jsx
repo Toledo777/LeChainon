@@ -87,14 +87,14 @@ export default function Nav({ openNav, onCloseNav }) {
           </Typography>
         </Box>
 
-        <Button
+        {/* <Button
           href="https://material-ui.com/store/items/minimal-dashboard/"
           target="_blank"
           variant="contained"
           color="inherit"
         >
           Upgrade to Pro
-        </Button>
+        </Button> */}
       </Stack>
     </Box>
   );

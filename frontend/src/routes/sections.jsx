@@ -22,6 +22,8 @@ export default function Router() {
           </Suspense>
         </DashboardLayout>
       ),
+
+      // To get nav to appear, add new pages as children here
       children: [
         { element: <IndexPage />, index: true },
         { path: 'user', element: <UserPage /> },

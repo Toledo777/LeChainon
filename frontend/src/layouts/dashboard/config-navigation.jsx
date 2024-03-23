@@ -15,7 +15,7 @@ const navConfig = [
   {
     title: 'residentdash',
     path: '/resident-dash',
-    icon: icon('ic_lock'),
+    icon: icon('ic_analytics'),
   },
   {
     title: 'user',

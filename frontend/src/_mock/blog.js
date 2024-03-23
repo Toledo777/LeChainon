@@ -43,3 +43,11 @@ export const posts = [...Array(23)].map((_, index) => ({
     avatarUrl: `/assets/images/avatars/avatar_${index + 1}.jpg`,
   },
 }));
+
+// export const posts = [...Array(23)].map((_, index) => ({
+//   textTitle: POST_TITLES[index + 1], // Assuming POST_TITLES is an array containing text titles
+//   textDescription: faker.lorem.paragraph(), // Assuming you want a random lorem ipsum text for description
+//   type: faker.random.arrayElement(["Activity", "Video", "Document"]), // Randomly select type
+//   link: faker.internet.url(), // Random URL
+//   issues: faker.random.arrayElements(["Related issues", "challenges"], faker.random.number({ min: 1, max: 2 })), // Randomly select related issues / challenges
+// }));

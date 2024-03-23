@@ -18,7 +18,7 @@ import AppWidgetSummary from '../app-widget-summary';
 import AppTrafficBySite from '../app-traffic-by-site';
 import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from '../app-conversion-rates';
-import Iconify from '../../../components/iconify/iconify';
+
 
 // ----------------------------------------------------------------------
 

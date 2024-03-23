@@ -4,18 +4,18 @@ from firebase.config import db
 housing_bp = Blueprint("housing", __name__, url_prefix="/housing")
 
 # Updating housing availability data
-@housing_bp.route("/update-availability", methods=["POST"])
-def update_availability():
+@housing_bp.route("/update", methods=["POST"])
+def update_housing():
     data={
-        "available_space": (request.form.get("available_space")),
-        "avg_length_stay": (request.form.get("avg_length_stay")),
-        "occupation_rate": (request.form.get("occupation_rate"))
+        "available_space": request.form.get("available_space"),
+        "avg_length_stay": request.form.get("avg_length_stay"),
+        "occupation_rate": request.form.get("occupation_rate")
     }
     db.collection("housing").add(data)
     return jsonify({"message": "Success!"}), 200
 
 # Fetching housing availability data 
-@housing_bp.route("/get-housing-data", method=["GET"])
+@housing_bp.route("/get-housing-data", methods=["GET"])
 def get_housing_data():
     docs_ref = db.collection("housing").stream()
     housing_data = []

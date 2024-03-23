@@ -4,7 +4,7 @@ from firebase.config import db
 top_tiles_bp = Blueprint("top_tiles", __name__, url_prefix="/top_tiles")
 
 # Updating top_tiles data
-@top_tiles_bp.route("/create_top_tiles", methods=["POST"])
+@top_tiles_bp.route("/create", methods=["POST"])
 def create_top_tiles():
     data={
         "c_r_ratio": (request.form.get("c_r_ratio")),
@@ -15,7 +15,7 @@ def create_top_tiles():
     return jsonify({"message": "Success!"}), 200
 
 # Fetching top tiles data
-@top_tiles_bp.route("/get-top-tiles-data", method=["GET"])
+@top_tiles_bp.route("/get-top-tiles-data", methods=["GET"])
 def get_top_tiles_data():
     docs_ref = db.collection("top_tiles").stream()
     top_tiles_data = []

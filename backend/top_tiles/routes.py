@@ -3,7 +3,7 @@ from firebase.config import db
 
 top_tiles_bp = Blueprint("top_tiles", __name__, url_prefix="/top_tiles")
 
-# Update top_tiles data
+# Updating top_tiles data
 @top_tiles_bp.route("/create", methods=["POST"])
 def create_top_tiles():
     data={
@@ -14,7 +14,7 @@ def create_top_tiles():
     db.collection("top_tiles").add(data)
     return jsonify({"message": "Success!"}), 200
 
-# Fetch top tiles data
+# Fetching top tiles data
 @top_tiles_bp.route("/get-top-tiles-data", methods=["GET"])
 def get_top_tiles_data():
     docs_ref = db.collection("top_tiles").stream()

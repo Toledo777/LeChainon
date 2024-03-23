@@ -57,13 +57,13 @@ def get_intervention_plan():
     document["interventions"] = t
 
     temp = []
+    for a in document["follow_ups"]:
+        a["caregiver"] = db.collection("employees").where("uid", "==", a["cuid"]).get()[0].to_dict()
+        
+
+    temp = []
     for a in document["assigned_caregivers"]:
-        temp.append(
-            db.collection("employees")
-            .where("uid", "==", a)
-            .get()[0]
-            .to_dict()
-        )
+        temp.append(db.collection("employees").where("uid", "==", a).get()[0].to_dict())
 
     document["assigned_caregivers"] = temp
 

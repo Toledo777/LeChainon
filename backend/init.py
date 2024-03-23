@@ -18,6 +18,7 @@ def create_app():
 
     from manager.routes import manager_bp
     from audit_trail.routes import audit_trail_bp
+    from chat.routes import chat_bp
 
     app.register_blueprint(user_auth_bp)
     app.register_blueprint(residents_bp)
@@ -34,5 +35,6 @@ def create_app():
     app.register_blueprint(manager_bp)
     app.register_blueprint(audit_trail_bp)
     app.register_blueprint(resources_bp)
+    app.register_blueprint(chat_bp)
 
     return app

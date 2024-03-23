@@ -20,13 +20,6 @@ def create_caregivers():
     return jsonify({"message": "Success!"}), 200
 
 
-@caregivers_bp.route("/get_residents", methods=["POST"])
-def create_get_residents():
-    data = {
-        "uid": request.form.get("uid"),
-    }
-    
-    
 @caregivers_bp.route("/get-user-data", methods=["POST"])
 def get_user_data():
     docs_ref = (
@@ -37,8 +30,13 @@ def get_user_data():
 
     documents = []
 
-    for doc in docs_ref:
-        add= db.collection("employees")
+    for d in docs_ref:
+        t = d.to_dict()
+        temp = []
+        for a in t["assigned_caregivers"]:
+            temp.append(db.collection("employees").where("uid", "==", a).get()[0].to_dict())
+        t["assigned_caregivers"] = temp
+        documents.append(t)
+
 
     return jsonify({"message": "Success!", "residents": documents}), 200
-

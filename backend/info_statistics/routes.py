@@ -6,7 +6,7 @@ statistics_bp = Blueprint("statistics", __name__, url_prefix="/stats")
 
 
 @statistics_bp.route("/resident-personal", methods=["POST"])
-def create_reminder():
+def get_resident_personal_stats():
 
     document = {}
 
@@ -60,5 +60,40 @@ def create_reminder():
             document["no_of_goals_in_progress"] += 1
         if g["status"] == "future":
             document["no_of_goals_future"] += 1
+
+    return jsonify({"message": "Success!", "stats": document}), 200
+
+
+@statistics_bp.route("/global", methods=["GET"])
+def get_global_stats():
+    docs = db.collection("residents").get()
+
+    document = {}
+
+    temp = []
+    for d in docs:
+        temp.append(d.to_dict())
+
+    document["residents"] = temp
+    document["no_of_residents"] = len(temp)
+
+    docs = db.collection("employees").get()
+
+    temp = []
+    for d in docs:
+        temp.append(d.to_dict())
+
+    document["caregivers"] = temp
+    document["no_of_caregivers"] = len(temp)
+
+    document["avg_ratio_caretaker_residents"] = round((
+        document["no_of_caregivers"] / document["no_of_residents"]
+    ) * 100, 2)
+
+    document["no_of_first_timers"] = 0
+
+    for d in document["residents"]:
+        if d["first_visit"]:
+            document["no_of_first_timers"] += 1
 
     return jsonify({"message": "Success!", "stats": document}), 200

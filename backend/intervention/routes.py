@@ -47,6 +47,15 @@ def get_intervention_plan():
 
     document["significant_persons"] = t
 
+    d = db.collection("interventions").where("uid", "==", uid).stream()
+
+    t = []
+
+    for a in d:
+        t.append(a.to_dict())
+
+    document["interventions"] = t
+
     temp = []
     for a in document["assigned_caregivers"]:
         temp.append(

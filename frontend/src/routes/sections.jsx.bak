@@ -27,8 +27,8 @@ export default function Router() {
         { element: <IndexPage />, index: true },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
-        { path: 'resource', element: <ResourcePage /> },
-        { path: 'user/residentInDetail', element: <ResidentInDetailPage /> },
+        { path: 'blog', element: <BlogPage /> },
+        { path: 'user/residentInDetail',  element: <ResidentInDetailPage /> },
       ],
     },
     {

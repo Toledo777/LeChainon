@@ -93,7 +93,7 @@ export default function ResourceView() {
         </div>
       </div>
       {/* Input text field and button */}
-      <div style={{ paddingTop: '10px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', paddingTop: '10px' }}>
         <input
           ref={inputRef}
           type="text"
@@ -103,13 +103,12 @@ export default function ResourceView() {
             padding: '10px',
             borderRadius: '5px',
             border: '1px solid #ccc',
-            width: '90%',
           }}
           placeholder="Type your message"
         />
         <Button
           variant="contained"
-          style={{ backgroundColor: '#007bff', color: '#fff', width: '9%' }}
+          style={{ backgroundColor: '#007bff', color: '#fff', minWidth: 0 }}
           type="button"
           onClick={handleMessageSend}
         >

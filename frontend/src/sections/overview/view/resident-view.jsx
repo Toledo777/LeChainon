@@ -43,7 +43,7 @@ export default function ResidentView() {
             title="Days in Stay"
             total={12}
             color="success"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_day.png" />}
           />
         </Grid>
 
@@ -52,7 +52,7 @@ export default function ResidentView() {
             title="Days on Plan"
             total={9}
             color="info"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_planday.png" />}
           />
         </Grid>
 
@@ -61,7 +61,7 @@ export default function ResidentView() {
             title="Tasks Completed"
             total={6}
             color="warning"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_task.png" />}
           />
         </Grid>
 
@@ -70,7 +70,7 @@ export default function ResidentView() {
             title="Goals Completed"
             total={4}
             color="error"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_goal.png" />}
           />
         </Grid>
 

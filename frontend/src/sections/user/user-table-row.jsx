@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState , useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,16 +21,14 @@ export default function UserTableRow({
   selected,
   name,
   avatarUrl,
-  housing,
-  role,
-  Dates,
+  stayEndDate,
+  stayStartDate,
+  currentAccomodation,
   careTaker,
-  isVerified,
-  status,
   handleClick,
   onViewProfile,
-  
 }) {
+
   const [open, setOpen] = useState(null);
 
   const handleOpenMenu = (event) => {
@@ -45,19 +43,19 @@ export default function UserTableRow({
     navigate('/user/residentInDetail');
     handleCloseMenu();
   };
-  const addDays = (date, days) => {
-    const result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
-  };
-  const addRandomDays = (date) => {
-    const result = new Date(date);
-    const randomDays = Math.floor(Math.random() * (80 - 60 + 1)) + 60;
-    result.setDate(result.getDate() + randomDays);
-    return result;
-  };
-  let shortLongStayBoolean = housing === 'EMMERGENCY HOSTING' || housing === 'SHORT STAY UNIT' ||  housing === 'TRANSITION UNIT' ||  housing === 'YVONNE MAISONNEUVE HOUSE' ? false : true;
-  let endDate = shortLongStayBoolean ? addDays(Dates, 10).toLocaleDateString()  : addRandomDays(Dates).toLocaleDateString(); 
+  // const addDays = (date, days) => {
+  //   const result = new Date(date);
+  //   result.setDate(result.getDate() + days);
+  //   return result;
+  // };
+  // const addRandomDays = (date) => {
+  //   const result = new Date(date);
+  //   const randomDays = Math.floor(Math.random() * (80 - 60 + 1)) + 60;
+  //   result.setDate(result.getDate() + randomDays);
+  //   return result;
+  // };
+//  let shortLongStayBoolean = housing === 'EMMERGENCY HOSTING' || housing === 'SHORT STAY UNIT' ||  housing === 'TRANSITION UNIT' ||  housing === 'YVONNE MAISONNEUVE HOUSE' ? false : true;
+//  let endDate = shortLongStayBoolean ? addDays(Dates, 10).toLocaleDateString()  : addRandomDays(Dates).toLocaleDateString(); 
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
@@ -74,10 +72,10 @@ export default function UserTableRow({
           </Stack>
         </TableCell>
 
-        <TableCell>{housing}</TableCell>
+        <TableCell>{currentAccomodation}</TableCell>
 
-        <TableCell>{Dates}</TableCell>
-        <TableCell>{endDate}</TableCell>
+        <TableCell>{stayStartDate}</TableCell>
+        <TableCell>{stayEndDate}</TableCell>
         <TableCell align="center">{careTaker}</TableCell>
 
         <TableCell align = 'center'>
@@ -98,12 +96,16 @@ export default function UserTableRow({
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         PaperProps={{
-          sx: { width: 140 },
+          sx: { width: 170 },
         }}
       >
         <MenuItem onClick={handleViewProfile}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Profile
+        </MenuItem>
+        <MenuItem onClick={handleCloseMenu}>
+          <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
+          Intervention
         </MenuItem>
       </Popover>
     </>
@@ -112,14 +114,12 @@ export default function UserTableRow({
 
 UserTableRow.propTypes = {
   avatarUrl: PropTypes.any,
-  housing: PropTypes.any,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
   name: PropTypes.any,
-  role: PropTypes.any,
-  Dates: PropTypes.any,
+  currentAccomodation : PropTypes.any,
+  stayStartDate : PropTypes.any,
+  stayEndDate : PropTypes.any,
   careTaker : PropTypes.any,
   selected: PropTypes.any,
-  status: PropTypes.string,
   onViewProfile: PropTypes.func.isRequired,
 };

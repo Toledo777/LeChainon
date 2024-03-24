@@ -11,18 +11,18 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import Grid from '@mui/material/Unstable_Grid2';
 import { users } from 'src/_mock/user';
-
+import IconButton from '@mui/material/IconButton';
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
-
 import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
+import { useEffect } from 'react';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
-export default function ResidentInDetailPage() {
+export default function ResidentInDetailPage(props) {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -36,7 +36,7 @@ export default function ResidentInDetailPage() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [showProfile, setShowProfile] = useState(false);
-
+  const [userData, setUserData] = useState(null);
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
@@ -53,7 +53,6 @@ export default function ResidentInDetailPage() {
     }
     setSelected([]);
   };
-
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -85,10 +84,7 @@ export default function ResidentInDetailPage() {
     setPage(0);
     setFilterName(event.target.value);
   };
-
-  const handleViewProfile = () => {
-    setShowProfile(true);
-  };
+  console.log(props)
 
   const dataFiltered = applyFilter({
     inputData: users,
@@ -96,7 +92,7 @@ export default function ResidentInDetailPage() {
     filterName,
   });
 
-  const notFound = !dataFiltered.length && !!filterName;
+ // const notFound = !dataFiltered.length && !!filterName;
 
   return (
     <Container maxWidth="xl">
@@ -107,10 +103,13 @@ export default function ResidentInDetailPage() {
           <Typography variant="h4" style={{ textIndent: '9px' }}>
             {' '}
             Basic Information
+            <IconButton >
+            <Iconify icon="eva:more-vertical-fill" />
+          </IconButton>
           </Typography>
           <p style={{ textIndent: '40px' }}>
             {' '}
-            <strong>First Name:</strong> John{' '}
+            <strong>First Name:</strong> Name{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
             {' '}

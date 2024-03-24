@@ -135,8 +135,8 @@ export default function UserPage() {
                   { id: 'accomodation', label: 'Accomodation Unit' },
                   { id: 'stayStartDate', label: 'Stay Start Date' },
                   { id: 'stayEndDate', label: 'Stay End Date' },
-                  { id: 'CareTakerName', label: 'CareTaker Assigned', align: 'center' },
-                  { id: 'status', label: 'Status' },
+                  { id: 'CareTakerName', label: 'CareTaker Name' ,align: 'center'},
+                  { id: 'CareTaker', label: 'CareTaker Assigned', align: 'center'},
                   { id: '' },
                 ]}
               />
@@ -148,9 +148,10 @@ export default function UserPage() {
                       key={row.id}
                       name={row.name}
                       role={row.role}
+                      Dates={row.Dates}
+                      careTaker = {row.careTaker}
                       status={row.status}
-                      company={row.company}
-                      avatarUrl={row.avatarUrl}
+                      housing={row.Housing}
                       isVerified={row.isVerified}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}

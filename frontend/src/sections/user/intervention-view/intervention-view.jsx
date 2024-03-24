@@ -1,189 +1,171 @@
-import React, { useState } from 'react'; // Added { useState }
-import { Link, Grid, Stack, Select, Button, MenuItem, TextField, InputLabel, Typography, IconButton, FormControl } from '@mui/material'; // Combined imports into a single line
-import LoadingButton from '@mui/lab/LoadingButton'; // Added LoadingButton
-import InputAdornment from '@mui/material/InputAdornment'; // Corrected InputAdornment import
+import React, { useState } from 'react';
 
-import { useTheme } from '@mui/material/styles'; // Moved useTheme import to the top
-import { useRouter } from 'src/routes/hooks'; // Assuming this import is correct
-import Iconify from 'src/components/iconify'; // Assuming this import is correct
+import { Grid, Button, TextField, Typography, IconButton } from '@mui/material';
 
-
-// ----------------------------------------------------------------------
-
-export default function LoginView() {
-  const theme = useTheme();
-
-  const router = useRouter();
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClick = () => {
-    router.push('/dashboard');
-  };
-
-  const renderForm = (
-    <>
-      <Stack spacing={4}>
-        <TextField name="email" label="Email address" />
-
-        <TextField
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-
-        <TextField
-            name="password"
-            label="Password"
-            type={showPassword ? 'text' : 'password'}
-            InputProps={{
-                endAdornment: (
-                <InputAdornment position="end">
-                    <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                    <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                    </IconButton>
-                </InputAdornment>
-                ),
-            }}
-        />
-      </Stack>
-
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
-      </Stack>
-
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        variant="contained"
-        color="inherit"
-        onClick={handleClick}
-      >
-        Login
-      </LoadingButton>
-    </>
-  );
-
-//   return (
-//     <Box
-//       sx={{
-//         ...bgGradient({
-//           color: alpha(theme.palette.background.default, 0.9),
-//           imgUrl: '/assets/background/overlay_4.jpg',
-//         }),
-//         height: 1,
-//       }}
-//     >
-//       {/* <Logo
-//         sx={{
-//           position: 'fixed',
-//           top: { xs: 16, md: 24 },
-//           left: { xs: 16, md: 24 },
-//         }}
-//       /> */}
-
-//       <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
-//         <Card
-//           sx={{
-//             p: 5,
-//             width: 1,
-//             maxWidth: 420,
-//           }}
-//         >
-//           <Typography variant="h4">Sign in to Minimal</Typography>
-
-//           <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-//             Don’t have an account?
-//             <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-//               Get started
-//             </Link>
-//           </Typography>
-
-//           <Stack direction="row" spacing={2}>
-//             <Button
-//               fullWidth
-//               size="large"
-//               color="inherit"
-//               variant="outlined"
-//               sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-//             >
-//               <Iconify icon="eva:google-fill" color="#DF3E30" />
-//             </Button>
-
-//             <Button
-//               fullWidth
-//               size="large"
-//               color="inherit"
-//               variant="outlined"
-//               sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-//             >
-//               <Iconify icon="eva:facebook-fill" color="#1877F2" />
-//             </Button>
-
-//             <Button
-//               fullWidth
-//               size="large"
-//               color="inherit"
-//               variant="outlined"
-//               sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-//             >
-//               <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
-//             </Button>
-//           </Stack>
-
-//           <Divider sx={{ my: 3 }}>
-//             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-//               OR
-//             </Typography>
-//           </Divider>
-
-//           {renderForm}
-//         </Card>
-//       </Stack>
-//     </Box>
-//   );
-
-return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h4">Create Intervention Plan</Typography>
+// Component for individual item
+const Item = ({ label, value, onChange, onRemove }) => (
+    <Grid container spacing={2} alignItems="center">
+      <Grid item xs={10}>
+        <TextField fullWidth value={value} onChange={(e) => onChange(e.target.value)} label={label} />
       </Grid>
-      <Grid item xs={12}>
-        <TextField fullWidth label="Caregiver Name" />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField fullWidth label="Patient Name" />
-      </Grid>
-      <Grid item xs={12}>
-        <FormControl fullWidth style={{ minWidth: 200 }}>
-          <InputLabel>Intervention Type</InputLabel>
-          <Select>
-            <MenuItem value="medication">Medication</MenuItem>
-            <MenuItem value="therapy">Therapy</MenuItem>
-            <MenuItem value="exercise">Exercise</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12}>
-        <TextField fullWidth multiline rows={4} label="Intervention Description" />
-      </Grid>
-      <Grid item xs={12}>
-        <Button variant="contained" color="primary">
-          Create Plan
-        </Button>
+      <Grid item xs={2}>
+        <IconButton onClick={onRemove} aria-label={`Remove ${label}`}>
+          {/* You can add your icon here */}
+        </IconButton>
       </Grid>
     </Grid>
   );
+
+// Component for a section with multiple items
+const Section = ({ title, items, onChange, onAdd, onRemove }) => {
+    // Function to unpluralize a title
+    const unpluralizeTitle = (title) => {
+      if (title.endsWith('s')) {
+        return title.slice(0, -1);
+      }
+      return title;
+    };
+  
+    return (
+      <>
+        <Typography variant="h6">{unpluralizeTitle(title)}</Typography>
+        {items.map((item, index) => (
+          <Item
+            key={index}
+            label={`${unpluralizeTitle(title)} ${index + 1}`}
+            value={item}
+            onChange={(value) => onChange(index, value)}
+            onRemove={() => onRemove(index)}
+          />
+        ))}
+        <Button onClick={onAdd} variant="outlined" size="small">
+          Add {unpluralizeTitle(title)}
+        </Button>
+      </>
+    );
+  };
+  
+
+// Main InterventionForm component
+const InterventionForm = () => {
+  const [name, setName] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [caseworker, setCaseworker] = useState('');
+  const [planStartDate, setPlanStartDate] = useState('');
+  const [entourage, setEntourage] = useState('');
+  const [treatingTeam, setTreatingTeam] = useState('');
+  const [diagnostics, setDiagnostics] = useState('');
+  const [communityServices, setCommunityServices] = useState('');
+  const [means, setMeans] = useState(['']); // Initial means state with one empty item
+  const [goalTracking, setGoalTracking] = useState(['']); // Initial goal tracking state with one empty item
+  const [longTermGoals, setLongTermGoals] = useState(['']); // Initial long term goals state with one empty item
+  const [pending, setPending] = useState('');
+  const [possibleInterventions, setPossibleInterventions] = useState('');
+  const [chronologicalNotes, setChronologicalNotes] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission here
+  };
+
+    // Function to handle adding a new item to the list
+    const handleAddItem = (state, setState) => {
+        setState([...state, '']); // Add an empty item to the list
+    };
+    
+    // Function to handle changing an item
+    const handleChangeItem = (index, value, state, setState) => {
+        const newItems = [...state];
+        newItems[index] = value;
+        setState(newItems);
+    };
+    
+    // Function to handle removing an item
+    const handleRemoveItem = (index, state, setState) => {
+        const newItems = [...state];
+        newItems.splice(index, 1); // Remove the item at the specified index
+        setState(newItems);
+    };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h4">Create Intervention Plan</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <TextField fullWidth label="Name" value={name} onChange={(e) => setName(e.target.value)} />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField fullWidth label="Start Date" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} InputLabelProps={{ shrink: true }} placeholder="YYYY-MM-DD"/>
+        </Grid>
+        <Grid item xs={6}>
+          <TextField fullWidth label="Caseworker(s)" value={caseworker} onChange={(e) => setCaseworker(e.target.value)} />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField fullWidth label="Plan Start Date" type="date" value={planStartDate} onChange={(e) => setPlanStartDate(e.target.value)} InputLabelProps={{ shrink: true }} placeholder="YYYY-MM-DD"/>
+        </Grid>
+        <Grid item xs={6}>
+          <TextField fullWidth label="Entourage" value={entourage} onChange={(e) => setEntourage(e.target.value)} />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField fullWidth label="Treating Team" value={treatingTeam} onChange={(e) => setTreatingTeam(e.target.value)} />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField fullWidth label="Diagnostics and Medications" value={diagnostics} onChange={(e) => setDiagnostics(e.target.value)} />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField fullWidth label="Community Services" value={communityServices} onChange={(e) => setCommunityServices(e.target.value)} />
+        </Grid>
+        
+
+        <Grid item xs={12}>
+  <Section
+    title="Means"
+    items={means}
+    onChange={(index, value) => handleChangeItem(index, value, means, setMeans)}
+    onAdd={() => handleAddItem(means, setMeans)}
+    onRemove={(index) => handleRemoveItem(index, means, setMeans)}
+  />
+</Grid>
+
+<Grid item xs={12}>
+  <Section
+    title="Long Term Goals"
+    items={longTermGoals}
+    onChange={(index, value) => handleChangeItem(index, value, longTermGoals, setLongTermGoals)}
+    onAdd={() => handleAddItem(longTermGoals, setLongTermGoals)}
+    onRemove={(index) => handleRemoveItem(index, longTermGoals, setLongTermGoals)}
+  />
+</Grid>
+
+<Grid item xs={12}>
+  <Section
+    title="Goal Tracking"
+    items={goalTracking}
+    onChange={(index, value) => handleChangeItem(index, value, goalTracking, setGoalTracking)}
+    onAdd={() => handleAddItem(goalTracking, setGoalTracking)}
+    onRemove={(index) => handleRemoveItem(index, goalTracking, setGoalTracking)}
+  />
+</Grid>
+
+
+ 
+        <Grid item xs={12}>
+          <TextField fullWidth multiline rows={4} label="Pending" value={pending} onChange={(e) => setPending(e.target.value)} />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField fullWidth multiline rows={4} label="Possible Interventions" value={possibleInterventions} onChange={(e) => setPossibleInterventions(e.target.value)} />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField fullWidth multiline rows={4} label="Chronological Notes" value={chronologicalNotes} onChange={(e) => setChronologicalNotes(e.target.value)} />
+        </Grid>
+        <Grid item xs={12}>
+          <Button type="submit" variant="contained" color="primary">Submit</Button>
+        </Grid>
+      </Grid>
+    </form>
+  );
 };
+
+export default InterventionForm;

@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import {InterventionView } from 'src/sections/user/intervention-view/';
+import {InterventionView } from '../sections/user/intervention-view';
 
 // ----------------------------------------------------------------------
 

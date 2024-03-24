@@ -13,9 +13,14 @@ const navConfig = [
     icon: icon('ic_analytics'),
   },
   {
-    title: 'residentdash',
+    title: 'My Dashboard',
     path: '/resident-dash',
     icon: icon('ic_analytics'),
+  },
+  {
+    title: 'Intervention Plans',
+    path: 'plan',
+    icon: icon('ic_cart'),
   },
   {
     title: 'user',

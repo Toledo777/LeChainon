@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import { ResourceView } from 'src/sections/resource/view';
+import {InterventionView } from '../sections/user/intervention-view';
 
 // ----------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ export default function InterventionPage() {
         <title> Intervention | Le Chainon </title>
       </Helmet>
 
-      <ResourceView />
+      <InterventionView />
     </>
   );
 }

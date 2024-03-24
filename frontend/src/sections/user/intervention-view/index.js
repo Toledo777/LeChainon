@@ -1,0 +1,1 @@
+export { default as InterventionView } from './intervention-view'

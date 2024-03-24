@@ -14,7 +14,7 @@ import { fDateTime } from 'src/utils/format-time';
 
 // ----------------------------------------------------------------------
 
-export default function CaretakerEventsTimeline({ title, subheader, list, ...other }) {
+export default function EventsTimeline({ title, subheader, list, ...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -37,7 +37,7 @@ export default function CaretakerEventsTimeline({ title, subheader, list, ...oth
   );
 }
 
-CaretakerEventsTimeline.propTypes = {
+EventsTimeline.propTypes = {
   list: PropTypes.array,
   subheader: PropTypes.string,
   title: PropTypes.string,

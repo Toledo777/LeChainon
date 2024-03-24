@@ -1,29 +1,27 @@
 import moment from 'moment';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
-import { faker } from '@faker-js/faker';
 import 'react-calendar/dist/Calendar.css';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
-import Iconify from 'src/components/iconify';
-
-import AppTasks from '../app-tasks';
-import AppChronologicalNotes from '../app-chronological-notes';
-import AppOrderTimeline from '../app-caretaker-events-timeline';
-import AppMonthlyStats from '../app-monthly-stats';
-import AppWidgetSummary from '../app-widget-summary';
-import AppGoalStats from '../app-goal-stats';
-import AppResidentDemographics from '../app-resident-demographics';
+import { Radio, RadioGroup, FormControlLabel  } from '@mui/material';
 import AppHousingOccupancy from '../app-housing-occupancy';
-import { RadioGroup, FormControlLabel, Radio } from '@mui/material';
-import CaretakerEventsTimeline from '../app-caretaker-events-timeline';
+import AppGoalStats from '../app-goal-stats';
+import AppNewsUpdate from '../app-news-update';
+import AppMonthlyStats from '../app-monthly-stats';
+import EventsTimeline from '../app-events-timeline';
+import AppWidgetSummary from '../app-widget-summary';
+import AppResidentDemographics from '../app-resident-demographics';
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
+
+    /* eslint-disable no-unused-vars */
+
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [residentNum, setResidentNum] = useState(150);
     const [caretakerNum, setCaretakertNum] = useState(50);
@@ -331,7 +329,7 @@ export default function AppView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
-          <CaretakerEventsTimeline
+          <EventsTimeline
             title="Recent Events"
             list={recentEvents.map(event => ({
               id: event.uid,
@@ -343,7 +341,7 @@ export default function AppView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
-          <CaretakerEventsTimeline
+          <EventsTimeline
             title="Upcoming Events"
             list={upcomingEvents.map(event => ({
               id: event.uid,
@@ -369,7 +367,7 @@ export default function AppView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>
-          <AppChronologicalNotes
+          <AppNewsUpdate
             title="Chronological Notes"
             list={chronologicalNotes.filter(note => moment(note.date).isSame(selectedDate, 'day'))}
           />

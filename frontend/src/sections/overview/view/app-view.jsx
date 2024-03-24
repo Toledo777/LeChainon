@@ -1,245 +1,454 @@
 import moment from 'moment';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
-import { faker } from '@faker-js/faker';
 import 'react-calendar/dist/Calendar.css';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
-import Iconify from 'src/components/iconify';
-
-import AppTasks from '../app-tasks';
-import AppNewsUpdate from '../app-news-update';
-import AppOrderTimeline from '../app-order-timeline';
-import AppWebsiteVisits from '../app-website-visits';
+import { Radio, RadioGroup, FormControlLabel  } from '@mui/material';
+import AppHousingOccupancy from '../app-housing-occupancy';
+import AppGoalStats from '../app-goal-stats';
+import AppEventsOfDay from '../app-items-by-date';
+import AppMonthlyStats from '../app-monthly-stats';
+import EventsTimeline from '../app-events-timeline';
 import AppWidgetSummary from '../app-widget-summary';
-import AppTrafficBySite from '../app-traffic-by-site';
-import AppCurrentSubject from '../app-current-subject';
-import AppConversionRates from '../app-conversion-rates';
-
+import AppResidentDemographics from '../app-resident-demographics';
+import AppItemsOfDay from '../app-items-by-date';
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
-    const [value, onChange] = useState(new Date());
-    // eslint-disable-next-line no-unused-vars
-    const state = {
-      'date': '04-03-2024'
-    }
 
-  const mark = ['08-05-2024', '03-03-2024', '05-03-2024'];
+    /* eslint-disable no-unused-vars */
+
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [residentNum, setResidentNum] = useState(150);
+    const [caretakerNum, setCaretakertNum] = useState(50);
+    const [firstTimers, setFirstTimers] = useState(38);
+
+    const [housingOccupancy, setHousingOccupancy] = useState([
+      { 
+        name: "Emergency Housing", 
+        capacity: 15, 
+        occupancy: 5 
+      },
+      { 
+        name: "Short Stay", 
+        capacity: 21, 
+        occupancy: 20 
+      },
+      { 
+        name: "Transition Unit", 
+        capacity: 15, 
+        occupancy: 13 
+      },
+      { 
+        name: "Yvonne Maisonneuve", 
+        capacity: 15, 
+        occupancy: 15 
+      },
+      { 
+        name: "Sainte-Marie", 
+        capacity: 49, 
+        occupancy: 43 
+      },
+      { 
+        name: "The Annexe", 
+        capacity: 25, 
+        occupancy: 20 
+      },
+    ]);
+
+    const [residentDemoOption, setResidentDemoOption] = useState('age');
+    const [residentDemographics, setResidentDemographics] = useState({
+      age: {
+        category_name: 'Age Group',
+        category_data: {
+          under_18: 20,
+          between_18_30: 60,
+          between_31_55: 55,
+          over_55: 15 
+        }
+      },
+      immigration: {
+        category_name: 'Immigration Status',
+        category_data: {
+          citizen: 46, 
+          permanent_resident: 30, 
+          temporary: 30,
+          asylum_received: 15,
+          asylum_in_progress: 25,
+          no_status: 4
+        } 
+      },
+      dependents: {
+        category_name: 'Child Dependents',
+        category_data: {
+          yes: 25,
+          no: 125
+        }
+      },
+      veteran: { 
+        category_name: 'Veteran Status',
+        category_data: {
+          yes: 12, 
+          no: 138
+        }
+      },
+      indigenous: {
+        category_name: 'Indigenous Status',
+        category_data: {
+          yes: 28, 
+          no: 122
+        }
+      },
+      income: { 
+        category_name: 'Income Levels',
+        category_data: {
+          under_500: 40,
+          between_500_999: 95, 
+          between_1000_1999: 14,
+          over_1999: 1,
+        }
+      },
+    })
+
+    const [monthlyStats, setMonthlyStats] = useState([
+      {
+        name: 'Number of Goals Completed',
+        type: 'column',
+        fill: 'solid',
+        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 19],
+      },
+      {
+        name: 'Resident Intake',
+        type: 'area',
+        fill: 'gradient',
+        data: [12, 6, 7, 15, 3, 10, 5, 7, 18, 14, 12, 5],
+      },
+      {
+        name: 'Resident Transition to Permanent Housing',
+        type: 'line',
+        fill: 'solid',
+        data: [3, 5, 2, 0, 5, 8, 10, 6, 8, 7, 9, 8],
+      },
+    ])
+
+    const [events, setEvents] = useState([
+      {
+        title: 'crisis intervention 1',
+        follow_up_date: 'Fri, 22 Mar 2024 04:00:00 GMT',
+        communication_method: 'in person',
+        type: 'appointment',
+        notes: 'Resident was in a crisis situation and needed immediate intervention.',
+        resident: 'Jane Doe'
+      },
+      {
+        title: 'follow up 1',
+        follow_up_date: 'Fri, 15 Mar 2024 05:00:00 GMT',
+        communication_method: 'in person',
+        type: 'meeting',
+        notes: 'Meeting with treatment team.',
+        resident: 'Rita Doe'
+      },
+      {
+        title: 'follow up 1',
+        follow_up_date: 'Fri, 15 Mar 2024 12:00:00 GMT',
+        communication_method: 'email',
+        type: 'checkpoint',
+        notes: 'Routine check up. Resident is progressing well.',
+        resident: 'Jane Doe'
+      }, 
+      {
+        title: 'follow up 3',
+        follow_up_date: 'Sat, 30 Mar 2024 05:00:00 GMT',
+        communication_method: 'in person',
+        type: 'appointment',
+        notes: 'Appointment with legal counselor to get advice on refugee status.',
+        resident: 'Rita Doe'
+      },
+      {
+        title: 'follow up 2',
+        follow_up_date: 'Fri, 29 Mar 2024 04:00:00 GMT',
+        communication_method: 'in person',
+        type: 'checkpoint',
+        notes: 'Routine check up. Active listening and helped client with employment issue.',
+        resident: 'Jane Doe'
+      },
+      {
+        title: 'follow up 2',
+        follow_up_date: 'Mon, 25 Mar 2024 04:00:00 GMT',
+        communication_method: 'phone',
+        type: 'meeting',
+        notes: 'Routine check up. Resident is progressing well.',
+        resident: 'Rita Doe'
+      },
+    ])
+
+    const [chronologicalNotes, setChronologicalNotes] = useState([
+      {
+        date: "Fri, 22 Mar 2024 09:00:00 GMT",
+        title: "Register for Legal Clinic",
+        type: "action",
+        details: "Failed to see the legal clinic in February, re-registers for March.",
+        resident_name: "Rita Doe"
+      },
+      {
+        date: "Sat, 23 Mar 2024 18:00:00 GMT",
+        title: "Set up a meeting with Mr. X",
+        type: "appointment",
+        details: "Following registration. Mrs. must call Mr.X, at (514)xxx-xxxx, posted today, until noon or between 2:00 p.m. and 4:30 p.m. He will ask her questions in order to direct her to the right services.",
+        resident_name: "Rita Doe"
+      },
+      {
+        date: "Wed, 20 Mar 2024 16:00:00 GMT",
+        title: "Offer meeting at Medical Clinic",
+        type: "appointment",
+        details: "The coordinator came to offer her this appointment, easy to access, to talk with a doctor about her symptoms, (as mentioned since the beginning of February) who has test or analysis results to communicate to her. ",
+        resident_name: "Jane Doe"
+      },
+    ])
+
+    const mark = [
+      '08-05-2024',
+      '03-30-2024',
+      '05-03-2024'
+    ]
+
+    const addNewEvent = (event) => {
+      setEvents([...events, event]);
+    };
+
+    const addNewNote = (note) => {
+      setChronologicalNotes([...chronologicalNotes, note]);
+    };
 
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi, Welcome back 👋
+        Hi, welcome back 👋
       </Typography>
 
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Weekly Sales"
-            total={714000}
-            color="success"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-          />
-        </Grid>
-
-        <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="New Users"
-            total={1352831}
+            title="Number of Residents"
+            total={residentNum}
             color="info"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_user.png" />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Item Orders"
-            total={1723315}
-            color="warning"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+            title="Number of Caretakers"
+            total={caretakerNum}
+            color="info"
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_caretaker.png" />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Bug Reports"
-            total={234}
-            color="error"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+            title={(residentNum/caretakerNum > 1) ? "Caretakers Per Resident" : "Caretaker Per Resident"}
+            total={residentNum/caretakerNum}
+            color="info"
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_ratio.png" />}
+          />
+        </Grid>
+
+        <Grid xs={12} sm={6} md={3}>
+          <AppWidgetSummary
+            title={(firstTimers > 1) ? "First Time Residents" : "First Time Resident"}
+            total={firstTimers}
+            color="info"
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_firsttimer.png" />}
+          />
+        </Grid>
+
+        <Grid xs={12} md={6} lg={4}>
+          <AppGoalStats
+            title="Global Intervention Statistics"
+            list={[
+              {
+                name: 'Goal Success Rate',
+                value: "80%",
+                icon:  <img src="/assets/icons/glass/ic_glass_reward.png" width={32} alt="success" />,
+              },
+              {
+                name: 'Goal Pause Rate',
+                value: "15%",
+                icon: <img src="/assets/icons/glass/ic_glass_pause.png" width={32} alt="pause" />,
+              },
+              {
+                name: 'Average Goal Duration (days)',
+                value: 45,
+                icon: <img src="/assets/icons/glass/ic_glass_duration.png" width={32} alt="duration" />,
+              },
+              {
+                name: 'Society Reintegration Rate',
+                value: "80%",
+                icon: <img src="/assets/icons/glass/ic_glass_health.png" width={32} alt="health_aspect" />,
+              },
+              {
+                name: 'Transitions to Permanent Housing',
+                value: 755,
+                icon: <img src="/assets/icons/glass/ic_glass_health.png" width={32} alt="health_aspect" />,
+              },
+              {
+                name: 'Most Common Health Aspect',
+                value: "Mental Health",
+                icon: <img src="/assets/icons/glass/ic_glass_health.png" width={32} alt="health_aspect" />,
+              },
+              
+            ]}
           />
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>
-          <AppWebsiteVisits
-            title="Website Visits"
-            subheader="(+43%) than last year"
+          <AppMonthlyStats
+            title="Monthly Tracking"
             chart={{
               labels: [
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
+                '04/01/2023',
+                '05/01/2023',
+                '06/01/2023',
+                '07/01/2023',
+                '08/01/2023',
+                '09/01/2023',
+                '10/01/2023',
+                '11/01/2023',
+                '12/01/2023',
+                '01/01/2024',
+                '02/01/2024',
+                '03/01/2024'
               ],
-              series: [
-                {
-                  name: 'Team A',
-                  type: 'column',
-                  fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                },
-                {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                },
-              ],
+              series: monthlyStats,
+            }}
+          />
+        </Grid>
+
+        <Grid xs={12} md={6} lg={8}>
+          <AppHousingOccupancy
+            title="Occupation Rate for Each Housing Category"
+            subheader="(+10%) average than last year"
+            chart={{
+              series: housingOccupancy.map(housing => ({
+                label: housing.name,
+                value: housing.occupancy / housing.capacity
+              }))
             }}
           />
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
+        <RadioGroup
+          row
+          value={residentDemoOption}
+          onChange={(event) => setResidentDemoOption(event.target.value)}>
+            
+          {Object.keys(residentDemographics).map((key) => (
+            <FormControlLabel value={key} control={<Radio />} label={key} />
+          ))}
+          
+        </RadioGroup>
+        <AppResidentDemographics
+          title={residentDemographics[residentDemoOption].category_name}
+          chart={{
+            categories: Object.keys(residentDemographics[residentDemoOption].category_data),
+            series: Object.values(residentDemographics[residentDemoOption].category_data)
+          }}
+        />
+        </Grid>
+
+        <Grid xs={12} md={6} lg={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Calendar
-            style={{ height: 500 }}
-            onChange={onChange}
-            value={value}
-            // eslint-disable-next-line consistent-return
+            style={{ height: 800, width: 800}}
+            onChange={setSelectedDate}
+            value={selectedDate}
             tileClassName={({ date, view }) => {
-              if (mark.find((x) => x === moment(date).format('DD-MM-YYYY'))) {
-                return 'highlight';
+                if(mark.find(x => x === moment(date).format("DD-MM-YYYY"))) {
+                return  'highlight'
               }
-              // Add a return statement for the case where the condition above is not met
-              return ''; // You may adjust this return value based on your requirements
             }}
-            tileDisabled={({ date }) => date.getDay() === 0}
-            minDate={new Date()}
-          />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={8}>
-          <AppConversionRates
-            title="Conversion Rates"
-            subheader="(+43%) than last year"
-            chart={{
-              series: [
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
-              ],
-            }}
-          />
+            />
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
-          <AppCurrentSubject
-            title="Current Subject"
-            chart={{
-              categories: ['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math'],
-              series: [
-                { name: 'Series 1', data: [80, 50, 30, 40, 100, 20] },
-                { name: 'Series 2', data: [20, 30, 40, 80, 20, 80] },
-                { name: 'Series 3', data: [44, 76, 78, 13, 43, 10] },
-              ],
-            }}
-          />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={8}>
-          <AppNewsUpdate
-            title="News Update"
-            list={[...Array(5)].map((_, index) => ({
-              id: faker.string.uuid(),
-              title: faker.person.jobTitle(),
-              description: faker.commerce.productDescription(),
-              image: `/assets/images/covers/cover_${index + 1}.jpg`,
-              postedAt: faker.date.recent(),
+          <EventsTimeline
+            title="Upcoming Events"
+            list={events
+              .filter(event => new Date(event.follow_up_date) > new Date())
+              .sort((a, b) => new Date(b.follow_up_date) - new Date(a.follow_up_date))
+              .slice(0, 3)
+              .map(event => ({
+              id: event.uid,
+              title: `${event.resident}, ${event.title}, ${event.communication_method}`,
+              type: event.type,
+              time: new Date(event.follow_up_date),
             }))}
           />
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
-          <AppOrderTimeline
-            title="Order Timeline"
-            list={[...Array(5)].map((_, index) => ({
-              id: faker.string.uuid(),
-              title: [
-                '1983, orders, $4220',
-                '12 Invoices have been paid',
-                'Order #37745 from September',
-                'New order placed #XF-2356',
-                'New order placed #XF-2346',
-              ][index],
-              type: `order${index + 1}`,
-              time: faker.date.past(),
+          <EventsTimeline
+            title="Recent Events"
+            list={events
+              .filter(event => new Date(event.follow_up_date) <= new Date())
+              .sort((a, b) => new Date(b.follow_up_date) - new Date(a.follow_up_date))
+              .slice(0, 3)
+              .map(event => ({
+              id: event.uid,
+              title: `${event.resident}, ${event.title}, ${event.communication_method}`,
+              type: event.type,
+              time: new Date(event.follow_up_date),
             }))}
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={4}>
-          <AppTrafficBySite
-            title="Traffic by Site"
-            list={[
-              {
-                name: 'FaceBook',
-                value: 323234,
-                icon: <Iconify icon="eva:facebook-fill" color="#1877F2" width={32} />,
-              },
-              {
-                name: 'Google',
-                value: 341212,
-                icon: <Iconify icon="eva:google-fill" color="#DF3E30" width={32} />,
-              },
-              {
-                name: 'Linkedin',
-                value: 411213,
-                icon: <Iconify icon="eva:linkedin-fill" color="#006097" width={32} />,
-              },
-              {
-                name: 'Twitter',
-                value: 443232,
-                icon: <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={32} />,
-              },
-            ]}
+        <Grid xs={12} md={6} lg={6}>
+          <AppItemsOfDay
+            title={`Notes (${moment(selectedDate).format('DD/MM/YYYY')})`}
+            itemType="note"
+            onNewItem={addNewNote}
+            selectedDate={selectedDate}
+            list={
+              chronologicalNotes
+              .filter(note => moment(note.date).isSame(selectedDate, 'day'))
+              .map(note => ({
+                title: note.title,
+                date: new Date(note.date),
+                type: note.type,
+                description: note.details,
+                resident: note.resident_name
+              }))
+            }
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
-          <AppTasks
-            title="Tasks"
-            list={[
-              { id: '1', name: 'Create FireStone Logo' },
-              { id: '2', name: 'Add SCSS and JS files if required' },
-              { id: '3', name: 'Stakeholder Meeting' },
-              { id: '4', name: 'Scoping & Estimations' },
-              { id: '5', name: 'Sprint Showcase' },
-            ]}
+        <Grid xs={12} md={6} lg={6}>
+          <AppItemsOfDay
+            title={`Events (${moment(selectedDate).format('DD/MM/YYYY')})`}
+            itemType="event"
+            onNewItem={addNewEvent}
+            selectedDate={selectedDate}
+            list={
+              events
+              .filter(event => moment(event.follow_up_date).isSame(selectedDate, 'day'))
+              .map(event => ({
+                title: event.title,
+                date: new Date(event.follow_up_date),
+                notes: event.notes,
+                resident: event.resident,
+                type: event.type,
+                communication_method: event.communication_method
+              }))
+            }
           />
         </Grid>
+
       </Grid>
     </Container>
   );

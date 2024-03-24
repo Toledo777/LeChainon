@@ -4,38 +4,37 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 
+import { fNumber } from 'src/utils/format-number';
+
 import Chart, { useChart } from 'src/components/chart';
 
 // ----------------------------------------------------------------------
 
-export default function AppWebsiteVisits({ title, subheader, chart, ...other }) {
-  const { labels, colors, series, options } = chart;
+export default function AppHousingOccupancy({ title, subheader, chart, ...other }) {
+  const { colors, series, options } = chart;
+
+  const chartSeries = series.map((i) => i.value);
 
   const chartOptions = useChart({
     colors,
-    plotOptions: {
-      bar: {
-        columnWidth: '16%',
-      },
-    },
-    fill: {
-      type: series.map((i) => i.fill),
-    },
-    labels,
-    xaxis: {
-      type: 'datetime',
-    },
     tooltip: {
-      shared: true,
-      intersect: false,
+      marker: { show: false },
       y: {
-        formatter: (value) => {
-          if (typeof value !== 'undefined') {
-            return `${value.toFixed(0)} visits`;
-          }
-          return value;
+        formatter: (value) => fNumber(value*100),
+        title: {
+          formatter: () => '',
         },
       },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
+        barHeight: '28%',
+        borderRadius: 2,
+      },
+    },
+    xaxis: {
+      categories: series.map((i) => i.label),
     },
     ...options,
   });
@@ -44,11 +43,11 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
 
-      <Box sx={{ p: 3, pb: 1 }}>
+      <Box sx={{ mx: 3 }}>
         <Chart
           dir="ltr"
-          type="line"
-          series={series}
+          type="bar"
+          series={[{ data: chartSeries }]}
           options={chartOptions}
           width="100%"
           height={364}
@@ -58,7 +57,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
   );
 }
 
-AppWebsiteVisits.propTypes = {
+AppHousingOccupancy.propTypes = {
   chart: PropTypes.object,
   subheader: PropTypes.string,
   title: PropTypes.string,

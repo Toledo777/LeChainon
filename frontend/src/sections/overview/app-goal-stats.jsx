@@ -10,7 +10,7 @@ import { fShortenNumber } from 'src/utils/format-number';
 
 // ----------------------------------------------------------------------
 
-export default function AppTrafficBySite({ title, subheader, list, ...other }) {
+export default function AppGoalStats({ title, subheader, list, ...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -31,7 +31,7 @@ export default function AppTrafficBySite({ title, subheader, list, ...other }) {
           >
             <Box sx={{ mb: 0.5 }}>{site.icon}</Box>
 
-            <Typography variant="h6">{fShortenNumber(site.value)}</Typography>
+            <Typography variant="h6">{site.value}</Typography>
 
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               {site.name}
@@ -43,7 +43,7 @@ export default function AppTrafficBySite({ title, subheader, list, ...other }) {
   );
 }
 
-AppTrafficBySite.propTypes = {
+AppGoalStats.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
   list: PropTypes.array.isRequired,

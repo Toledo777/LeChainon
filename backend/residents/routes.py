@@ -42,3 +42,21 @@ def create_resident():
     }
     db.collection("residents").add(data)
     return jsonify({"message": "Success!"}), 200
+
+
+@residents_bp.route("/get", methods=["POST"])
+def get_resident():
+    document = (
+        db.collection("residents")
+        .where("uid", "==", request.form.get("uid"))
+        .get()[0]
+        .to_dict()
+    )
+    
+    temp = []
+    for a in document["assigned_caregivers"]:
+        temp.append(db.collection("employees").where("uid", "==", a).get()[0].to_dict())
+    
+    document["assigned_caregivers"] = temp
+        
+    return jsonify({"message": "Success!", "document": document}), 200

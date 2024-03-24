@@ -38,6 +38,11 @@ const navConfig = [
     icon: icon('ic_blog'),
   },
   {
+    title: 'messages',
+    path: '/messages',
+    icon: icon('ic_notification_chat'),
+  },
+  {
     title: 'login',
     path: '/login',
     icon: icon('ic_lock'),

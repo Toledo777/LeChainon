@@ -10,20 +10,17 @@ import Typography from '@mui/material/Typography';
 
 import AppTasks from '../app-tasks';
 import AppNewsUpdate from '../app-news-update';
-import AppOrderTimeline from '../app-order-timeline';
-import AppWebsiteVisits from '../app-website-visits';
+import EventsTimeline from '../app-events-timeline';
 import AppWidgetSummary from '../app-widget-summary';
-import AppTrafficBySite from '../app-traffic-by-site';
-import AppCurrentSubject from '../app-current-subject';
-import AppConversionRates from '../app-conversion-rates';
-import Iconify from '../../../components/iconify/iconify';
 
 // ----------------------------------------------------------------------
 
 
 export default function ResidentView() {
+
+    /* eslint-disable no-unused-vars */
+
     const [value, onChange] = useState(new Date());
-    // eslint-disable-next-line no-unused-vars
     const state = {
       'date': '04-03-2024'
     }
@@ -186,7 +183,7 @@ export default function ResidentView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
-          <AppOrderTimeline
+          <EventsTimeline
             title="Appartment"
             list={[...Array(5)].map((_, index) => ({
               id: faker.string.uuid(),
@@ -204,7 +201,7 @@ export default function ResidentView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
-          <AppOrderTimeline
+          <EventsTimeline
             title="Greatly reduce alcohol consumption and quit Smoking"
             list={[...Array(2)].map((_, index) => ({
               id: faker.string.uuid(),
@@ -219,7 +216,7 @@ export default function ResidentView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
-          <AppOrderTimeline
+          <EventsTimeline
             title="Payment of Tickets, Fines and Debts"
             list={[...Array(2)].map((_, index) => ({
               id: faker.string.uuid(),
@@ -235,7 +232,7 @@ export default function ResidentView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
-          <AppOrderTimeline
+          <EventsTimeline
             title="Start Hockey Training and Join Team"
             list={[...Array(3)].map((_, index) => ({
               id: faker.string.uuid(),

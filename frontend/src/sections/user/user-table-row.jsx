@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
@@ -10,7 +11,6 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { useNavigate } from 'react-router-dom';
 
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
@@ -38,7 +38,7 @@ export default function UserTableRow({
     setOpen(null);
   };
   const handleViewProfile = () => {
-    onViewProfile(); 
+    onViewProfile();
     navigate('/user/residentInDetail');
     handleCloseMenu();
   };
@@ -68,7 +68,7 @@ export default function UserTableRow({
         <TableCell>
           <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
         </TableCell>
-        
+
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />

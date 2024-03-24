@@ -17,7 +17,7 @@ export default function ResourceView() {
     const fakeMessages = [];
 
     // Generate each fake message
-    for (let i = 0; i < numMessages; i++) {
+    for (let i = 0; i < numMessages; i += 1) {
       // Pretend to have a sender named "Fake Sender"
       const fakeMessage = {
         text: `Fake message ${i + 1}`,

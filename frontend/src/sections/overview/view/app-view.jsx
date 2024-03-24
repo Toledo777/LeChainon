@@ -10,12 +10,12 @@ import Typography from '@mui/material/Typography';
 import { Radio, RadioGroup, FormControlLabel  } from '@mui/material';
 import AppHousingOccupancy from '../app-housing-occupancy';
 import AppGoalStats from '../app-goal-stats';
-import AppEventsOfDay from '../app-events-by-date';
+import AppEventsOfDay from '../app-items-by-date';
 import AppMonthlyStats from '../app-monthly-stats';
 import EventsTimeline from '../app-events-timeline';
 import AppWidgetSummary from '../app-widget-summary';
 import AppResidentDemographics from '../app-resident-demographics';
-import AppNotesOfDay from '../app-notes-by-date';
+import AppItemsOfDay from '../app-items-by-date';
 
 // ----------------------------------------------------------------------
 
@@ -138,7 +138,6 @@ export default function AppView() {
 
     const [events, setEvents] = useState([
       {
-        uid: 1,
         title: 'crisis intervention 1',
         follow_up_date: 'Fri, 22 Mar 2024 04:00:00 GMT',
         communication_method: 'in person',
@@ -147,33 +146,30 @@ export default function AppView() {
         resident: 'Jane Doe'
       },
       {
-        uid: 2,
         title: 'follow up 1',
         follow_up_date: 'Fri, 15 Mar 2024 05:00:00 GMT',
         communication_method: 'in person',
         type: 'meeting',
         notes: 'Meeting with treatment team.',
-        resident: 'John Doe'
+        resident: 'Rita Doe'
       },
       {
-        uid: 3,
         title: 'follow up 1',
         follow_up_date: 'Fri, 15 Mar 2024 12:00:00 GMT',
         communication_method: 'email',
         type: 'checkpoint',
         notes: 'Routine check up. Resident is progressing well.',
         resident: 'Jane Doe'
-      }, {
-        uid: 4,
+      }, 
+      {
         title: 'follow up 3',
         follow_up_date: 'Sat, 30 Mar 2024 05:00:00 GMT',
         communication_method: 'in person',
         type: 'appointment',
         notes: 'Appointment with legal counselor to get advice on refugee status.',
-        resident: 'John Doe'
+        resident: 'Rita Doe'
       },
       {
-        uid: 5,
         title: 'follow up 2',
         follow_up_date: 'Fri, 29 Mar 2024 04:00:00 GMT',
         communication_method: 'in person',
@@ -182,13 +178,12 @@ export default function AppView() {
         resident: 'Jane Doe'
       },
       {
-        uid: 6,
         title: 'follow up 2',
         follow_up_date: 'Mon, 25 Mar 2024 04:00:00 GMT',
         communication_method: 'phone',
         type: 'meeting',
         notes: 'Routine check up. Resident is progressing well.',
-        resident: 'John Doe'
+        resident: 'Rita Doe'
       },
     ])
 
@@ -198,14 +193,14 @@ export default function AppView() {
         title: "Register for Legal Clinic",
         type: "action",
         details: "Failed to see the legal clinic in February, re-registers for March.",
-        resident_name: "Jane Doe"
+        resident_name: "Rita Doe"
       },
       {
         date: "Sat, 23 Mar 2024 18:00:00 GMT",
         title: "Set up a meeting with Mr. X",
         type: "appointment",
         details: "Following registration. Mrs. must call Mr.X, at (514)xxx-xxxx, posted today, until noon or between 2:00 p.m. and 4:30 p.m. He will ask her questions in order to direct her to the right services.",
-        resident_name: "John Doe"
+        resident_name: "Rita Doe"
       },
       {
         date: "Wed, 20 Mar 2024 16:00:00 GMT",
@@ -220,14 +215,15 @@ export default function AppView() {
       '08-05-2024',
       '03-30-2024',
       '05-03-2024'
-  ]
+    ]
 
-  useEffect(() => {
-    fetch('/get-top-tiles-data')
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Error:', error));
-  }, []);
+    const addNewEvent = (event) => {
+      setEvents([...events, event]);
+    };
+
+    const addNewNote = (note) => {
+      setChronologicalNotes([...chronologicalNotes, note]);
+    };
 
   return (
     <Container maxWidth="xl">
@@ -413,12 +409,18 @@ export default function AppView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={6}>
-          <AppNotesOfDay
+          <AppItemsOfDay
             title={`Notes (${moment(selectedDate).format('DD/MM/YYYY')})`}
+            itemType="note"
+            onNewItem={addNewNote}
+            selectedDate={selectedDate}
             list={
-              chronologicalNotes.filter(note => moment(note.date).isSame(selectedDate, 'day')).map(note => ({
+              chronologicalNotes
+              .filter(note => moment(note.date).isSame(selectedDate, 'day'))
+              .map(note => ({
                 title: note.title,
                 date: new Date(note.date),
+                type: note.type,
                 description: note.details,
                 resident: note.resident_name
               }))
@@ -427,10 +429,15 @@ export default function AppView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={6}>
-          <AppEventsOfDay
+          <AppItemsOfDay
             title={`Events (${moment(selectedDate).format('DD/MM/YYYY')})`}
+            itemType="event"
+            onNewItem={addNewEvent}
+            selectedDate={selectedDate}
             list={
-              events.filter(event => moment(event.follow_up_date).isSame(selectedDate, 'day')).map(event => ({
+              events
+              .filter(event => moment(event.follow_up_date).isSame(selectedDate, 'day'))
+              .map(event => ({
                 title: event.title,
                 date: new Date(event.follow_up_date),
                 notes: event.notes,
@@ -442,18 +449,6 @@ export default function AppView() {
           />
         </Grid>
 
-        {/* <Grid xs={12} md={6} lg={8}>
-          <AppTasks
-            title="Tasks"
-            list={[
-              { id: '1', name: 'Create FireStone Logo' },
-              { id: '2', name: 'Add SCSS and JS files if required' },
-              { id: '3', name: 'Stakeholder Meeting' },
-              { id: '4', name: 'Scoping & Estimations' },
-              { id: '5', name: 'Sprint Showcase' },
-            ]}
-          />
-        </Grid> */}
       </Grid>
     </Container>
   );

@@ -196,7 +196,7 @@ export default function AppView() {
         resident_name: "Rita Doe"
       },
       {
-        date: "Sat, 23 Mar 2024 18:00:00 GMT",
+        date: "Fri, 22 Mar 2024 18:00:00 GMT",
         title: "Set up a meeting with Mr. X",
         type: "appointment",
         details: "Following registration. Mrs. must call Mr.X, at (514)xxx-xxxx, posted today, until noon or between 2:00 p.m. and 4:30 p.m. He will ask her questions in order to direct her to the right services.",
@@ -384,10 +384,10 @@ export default function AppView() {
               .sort((a, b) => new Date(b.follow_up_date) - new Date(a.follow_up_date))
               .slice(0, 3)
               .map(event => ({
-              id: event.uid,
-              title: `${event.resident}, ${event.title}, ${event.communication_method}`,
-              type: event.type,
-              time: new Date(event.follow_up_date),
+                id: event.uid,
+                title: `${event.resident}, ${event.title}, ${event.communication_method}`,
+                type: event.type,
+                time: new Date(event.follow_up_date),
             }))}
           />
         </Grid>
@@ -400,10 +400,10 @@ export default function AppView() {
               .sort((a, b) => new Date(b.follow_up_date) - new Date(a.follow_up_date))
               .slice(0, 3)
               .map(event => ({
-              id: event.uid,
-              title: `${event.resident}, ${event.title}, ${event.communication_method}`,
-              type: event.type,
-              time: new Date(event.follow_up_date),
+                id: event.uid,
+                title: `${event.resident}, ${event.title}, ${event.communication_method}`,
+                type: event.type,
+                time: new Date(event.follow_up_date),
             }))}
           />
         </Grid>

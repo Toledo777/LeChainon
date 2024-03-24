@@ -138,7 +138,6 @@ export default function AppView() {
 
     const [events, setEvents] = useState([
       {
-        uid: 1,
         title: 'crisis intervention 1',
         follow_up_date: 'Fri, 22 Mar 2024 04:00:00 GMT',
         communication_method: 'in person',
@@ -147,7 +146,6 @@ export default function AppView() {
         resident: 'Jane Doe'
       },
       {
-        uid: 2,
         title: 'follow up 1',
         follow_up_date: 'Fri, 15 Mar 2024 05:00:00 GMT',
         communication_method: 'in person',
@@ -156,15 +154,14 @@ export default function AppView() {
         resident: 'Rita Doe'
       },
       {
-        uid: 3,
         title: 'follow up 1',
         follow_up_date: 'Fri, 15 Mar 2024 12:00:00 GMT',
         communication_method: 'email',
         type: 'checkpoint',
         notes: 'Routine check up. Resident is progressing well.',
         resident: 'Jane Doe'
-      }, {
-        uid: 4,
+      }, 
+      {
         title: 'follow up 3',
         follow_up_date: 'Sat, 30 Mar 2024 05:00:00 GMT',
         communication_method: 'in person',
@@ -173,7 +170,6 @@ export default function AppView() {
         resident: 'Rita Doe'
       },
       {
-        uid: 5,
         title: 'follow up 2',
         follow_up_date: 'Fri, 29 Mar 2024 04:00:00 GMT',
         communication_method: 'in person',
@@ -182,7 +178,6 @@ export default function AppView() {
         resident: 'Jane Doe'
       },
       {
-        uid: 6,
         title: 'follow up 2',
         follow_up_date: 'Mon, 25 Mar 2024 04:00:00 GMT',
         communication_method: 'phone',
@@ -220,14 +215,15 @@ export default function AppView() {
       '08-05-2024',
       '03-30-2024',
       '05-03-2024'
-  ]
+    ]
 
-  useEffect(() => {
-    fetch('/get-top-tiles-data')
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Error:', error));
-  }, []);
+    const addNewEvent = (event) => {
+      setEvents([...events, event]);
+    };
+
+    const addNewNote = (note) => {
+      setChronologicalNotes([...chronologicalNotes, note]);
+    };
 
   return (
     <Container maxWidth="xl">
@@ -416,8 +412,12 @@ export default function AppView() {
           <AppItemsOfDay
             title={`Notes (${moment(selectedDate).format('DD/MM/YYYY')})`}
             itemType="note"
+            onNewItem={addNewNote}
+            selectedDate={selectedDate}
             list={
-              chronologicalNotes.filter(note => moment(note.date).isSame(selectedDate, 'day')).map(note => ({
+              chronologicalNotes
+              .filter(note => moment(note.date).isSame(selectedDate, 'day'))
+              .map(note => ({
                 title: note.title,
                 date: new Date(note.date),
                 type: note.type,
@@ -432,8 +432,12 @@ export default function AppView() {
           <AppItemsOfDay
             title={`Events (${moment(selectedDate).format('DD/MM/YYYY')})`}
             itemType="event"
+            onNewItem={addNewEvent}
+            selectedDate={selectedDate}
             list={
-              events.filter(event => moment(event.follow_up_date).isSame(selectedDate, 'day')).map(event => ({
+              events
+              .filter(event => moment(event.follow_up_date).isSame(selectedDate, 'day'))
+              .map(event => ({
                 title: event.title,
                 date: new Date(event.follow_up_date),
                 notes: event.notes,

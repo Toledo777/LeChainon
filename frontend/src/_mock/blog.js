@@ -57,7 +57,7 @@ export const posts = [
   {
     description: 'Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus',
     issues: 'issue9,issue10',
-    link: 'http://example.biz',
+    link: 'http://youtube.com',
     title: 'Temporibus Autem',
     type: 'Type I,Type J',
     uid: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2',

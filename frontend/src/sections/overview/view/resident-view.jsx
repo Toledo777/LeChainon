@@ -40,8 +40,8 @@ export default function ResidentView() {
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Current Days in Stay"
-            total={5}
+            title="Days in Stay"
+            total={12}
             color="success"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
@@ -49,8 +49,8 @@ export default function ResidentView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Days working on current plan"
-            total={4}
+            title="Days on Plan"
+            total={9}
             color="info"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
           />
@@ -59,7 +59,7 @@ export default function ResidentView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="Tasks Completed"
-            total={1723315}
+            total={6}
             color="warning"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
           />
@@ -67,8 +67,8 @@ export default function ResidentView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Tasks TO-DO"
-            total={234}
+            title="Goals Completed"
+            total={4}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
@@ -169,7 +169,7 @@ export default function ResidentView() {
           />
         </Grid> */}
 
-        <Grid xs={12} md={6} lg={8}>
+        {/* <Grid xs={12} md={6} lg={8}>
           <AppNewsUpdate
             title="News Update"
             list={[...Array(5)].map((_, index) => ({
@@ -180,19 +180,16 @@ export default function ResidentView() {
               postedAt: faker.date.recent(),
             }))}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid xs={12} md={6} lg={4}>
           <EventsTimeline
-            title="Appartment"
-            list={[...Array(5)].map((_, index) => ({
+            title="Finding an Appartment / Affordable Housing"
+            list={[...Array(2)].map((_, index) => ({
               id: faker.string.uuid(),
               title: [
-                '1983, orders, $4220',
-                '12 Invoices have been paid',
-                'Order #37745 from September',
-                'New order placed #XF-2356',
-                'New order placed #XF-2346',
+                'Find organizations to help acess affordable housing',
+                'Find resources to access affordable housing',
               ][index],
               type: `order${index + 1}`,
               time: faker.date.past(),
@@ -231,7 +228,7 @@ export default function ResidentView() {
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={4}>
+        <Grid xs={12} md={6} lg={8}>
           <EventsTimeline
             title="Start Hockey Training and Join Team"
             list={[...Array(3)].map((_, index) => ({

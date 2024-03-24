@@ -11,6 +11,7 @@ export const ProductsPage = lazy(() => import('src/pages/products'));
 export const ResidentInDetailPage = lazy(() => import('src/pages/residentInDetail'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const ResidentDash = lazy(() => import('src/pages/resident-dash'));
+export const InterventionPlan = lazy(() => import('src/pages/intervention'));
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -32,11 +33,18 @@ export default function Router() {
         { path: 'resource', element: <ResourcePage /> },
         { path: 'resident-dash', element: <ResidentDash />},
         { path: 'user/residentInDetail', element: <ResidentInDetailPage /> },
+        { path: 'plan', element: <InterventionPlan />}
+
       ],
     },
     {
       path: 'resident-dash',
-      element: <ResidentDash />
+      element: <ResidentDash />,
+    },
+    {
+      path: 'plan',
+      element: <InterventionPlan />
+
     },
     {
       path: 'login',

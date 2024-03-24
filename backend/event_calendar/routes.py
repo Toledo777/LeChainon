@@ -31,7 +31,8 @@ def create_meeting():
         ),
         "title": request.json.get("title"),
         "link": request.json.get("link"),
-        "uid": request.json.get("uid").split(","),
+        "uid": request.json.get("uid"),
+        "cuid": request.json.get("cuid"),
         "isReminder": False,
     }
 

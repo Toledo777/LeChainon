@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import { Grid, Button, TextField, Typography, IconButton } from '@mui/material';
 
 // Component for individual item
@@ -62,6 +61,26 @@ const InterventionForm = () => {
   const [pending, setPending] = useState('');
   const [possibleInterventions, setPossibleInterventions] = useState('');
   const [chronologicalNotes, setChronologicalNotes] = useState('');
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2' })
+    };
+      const response = await fetch('http://localhost:8000/intervention/get-intervention-plan', requestOptions);
+      const result = await response.json();
+      console.log(result);
+      setData(result);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();

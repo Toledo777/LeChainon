@@ -1,5 +1,7 @@
 from flask import *
 from firebase.config import db
+from datetime import datetime
+import pytz
 
 caregivers_bp = Blueprint("caregivers", __name__, url_prefix="/caregiver")
 
@@ -53,6 +55,17 @@ def get_all_follow_ups():
     documents = []
 
     for d in docs_ref:
+        t = d.to_dict()
+        t["date"] = t["follow_up_date"]
+        x = (
+            (db.collection("residents").where("uid", "==", t.get("uid")))
+            .get()[0]
+            .to_dict()
+        )
+        t["resident_name"] = x["first_name"] + " " + x["last_name"]
+        documents.append(t)
+
+    for d in docs_ref:
         documents.append(d.to_dict())
 
     return jsonify({"message": "Success!", "follow_ups": documents}), 200
@@ -69,6 +82,34 @@ def get_resident_follow_ups():
     documents = []
 
     for d in docs_ref:
-        documents.append(d.to_dict())
+        t = d.to_dict()
+        t["user"] = (
+            (db.collection("residents").where("uid", "==", t.get("uid")))
+            .get()[0]
+            .to_dict()
+        )
+        documents.append(t)
 
     return jsonify({"message": "Success!", "follow_ups": documents}), 200
+
+
+@caregivers_bp.route("/create-note", methods=["POST"])
+def create_note():
+    print(request.json.get("chronological_notes"))
+    chronological_notes = request.json.get("chronological_notes")
+    js_date_object = datetime.fromisoformat(chronological_notes["date"][:-1])
+
+    # Convert timezone to UTC (assuming JavaScript date is in UTC)
+    js_date_object = js_date_object.replace(tzinfo=pytz.utc)
+
+    # Convert UTC to desired timezone (e.g., 'America/New_York')
+    desired_timezone = pytz.timezone("America/New_York")
+    py_datetime_in_desired_tz = js_date_object.astimezone(desired_timezone)
+    if not chronological_notes["isEvent"]:
+        chronological_notes["date"] = py_datetime_in_desired_tz
+        db.collection("chronoogical_notes").add(chronological_notes)
+    else:
+        chronological_notes["follow_up_date"] = py_datetime_in_desired_tz
+        db.collection("follow_ups").add(chronological_notes)
+
+    return jsonify({"message": "Success!"}), 200

@@ -22,9 +22,21 @@ export default function AppItemsOfDay({ title, subheader, itemType, selectedDate
     setCreateNewItem(!createNewItem);
   };
 
-  const handleFormSubmit = (item) => {
-    onNewItem(item);
+  const handleFormSubmit = async (item) => {
+
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({"chronological_notes" :{ ...item, uid: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2', cuid: "ls3YYsM7BxctoAXDJzMAMgG4lAg1" }})
+    };
+      const response = await fetch('http://localhost:8000/caregiver/create-note', requestOptions);
+      const result = await response.json();
+          onNewItem(item);
     setCreateNewItem(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
   
   return (
@@ -132,7 +144,7 @@ NoteItem.propTypes = {
     description: PropTypes.string,
     date: PropTypes.instanceOf(Date),
     type: PropTypes.string,
-    resident: PropTypes.string,
+    resident_name: PropTypes.string,
   }),
 };
 
@@ -197,7 +209,7 @@ EventItem.propTypes = {
     title: PropTypes.string,
     notes: PropTypes.string,
     date: PropTypes.instanceOf(Date),
-    resident: PropTypes.string,
+    resident_name: PropTypes.string,
     type: PropTypes.string,
     communication_method: PropTypes.string
   }),
@@ -220,6 +232,7 @@ function NewNoteForm({ date, onCancel, onSubmit }) {
       type,
       details: notes,
       resident_name: resident,
+      isEvent: false,
     });
   };
 
@@ -314,6 +327,7 @@ function NewEventForm({ date, onCancel, onSubmit }) {
       type,
       notes,
       resident,
+      isEvent: true,
     });
   };
 

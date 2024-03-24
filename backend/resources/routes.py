@@ -8,12 +8,12 @@ resources_bp = Blueprint("resources", __name__, url_prefix="/resources")
 @resources_bp.route("/create", methods=["POST"])
 def create_resource():
     data = {
-        "description": request.form.get("description"),
-        "issues": request.form.get("issues"),
-        "link": request.form.get("link"),
-        "title": request.form.get("title"),
-        "type": request.form.get("type"),
-        "uid": request.form.get("uid"),
+        "description": request.json.get("description"),
+        "issues": request.json.get("issues"),
+        "link": request.json.get("link"),
+        "title": request.json.get("title"),
+        "type": request.json.get("type"),
+        "uid": request.json.get("uid"),
     }
 
     db.collection("resources").add(data)
@@ -23,9 +23,7 @@ def create_resource():
 @resources_bp.route("/get", methods=["POST"])
 def get_resource():
     docs_ref = (
-        db.collection("resources")
-        .where("uid", "==", request.form.get("uid"))
-        .stream()
+        db.collection("resources").where("uid", "==", request.json.get("uid")).stream()
     )
 
     documents = []

@@ -7,13 +7,13 @@ caregivers_bp = Blueprint("caregivers", __name__, url_prefix="/caregiver")
 @caregivers_bp.route("/create", methods=["POST"])
 def create_caregivers():
     data = {
-        "first_name": request.form.get("first_name"),
-        "last_name": request.form.get("last_name"),
-        "role": request.form.get("role"),
-        "email": request.form.get("email"),
-        "phone": request.form.get("phone"),
-        "manager_id": request.form.get("manager_id"),
-        "uid": request.form.get("uid"),
+        "first_name": request.json.get("first_name"),
+        "last_name": request.json.get("last_name"),
+        "role": request.json.get("role"),
+        "email": request.json.get("email"),
+        "phone": request.json.get("phone"),
+        "manager_id": request.json.get("manager_id"),
+        "uid": request.json.get("uid"),
     }
 
     db.collection("employees").add(data)
@@ -24,7 +24,7 @@ def create_caregivers():
 def get_user_data():
     docs_ref = (
         db.collection("residents")
-        .where("assigned_caregivers", "array_contains", request.form.get("uid"))
+        .where("assigned_caregivers", "array_contains", request.json.get("uid"))
         .stream()
     )
 
@@ -47,7 +47,7 @@ def get_user_data():
 def get_all_follow_ups():
     docs_ref = (
         db.collection("follow_ups")
-        .where("cuid", "==", request.form.get("cuid"))
+        .where("cuid", "==", request.json.get("cuid"))
         .stream()
     )
     documents = []
@@ -62,8 +62,8 @@ def get_all_follow_ups():
 def get_resident_follow_ups():
     docs_ref = (
         db.collection("follow_ups")
-        .where("cuid", "==", request.form.get("cuid"))
-        .where("uid", "==", request.form.get("uid"))
+        .where("cuid", "==", request.json.get("cuid"))
+        .where("uid", "==", request.json.get("uid"))
         .stream()
     )
     documents = []

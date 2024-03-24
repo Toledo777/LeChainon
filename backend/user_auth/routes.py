@@ -6,7 +6,7 @@ user_auth_bp = Blueprint("user_auth", __name__)
 
 
 def get_email_and_password(request):
-    return request.form.get("email"), request.form.get("password")
+    return request.json.get("email"), request.json.get("password")
 
 
 @user_auth_bp.route("/register", methods=["POST"])

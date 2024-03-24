@@ -8,10 +8,10 @@ chat_bp = Blueprint("chat", __name__, url_prefix="/chat")
 @chat_bp.route("/create", methods=["POST"])
 def create_chat():
     data = {
-        "text": request.form.get("text"),
-        "from": request.form.get("uid1"),
-        "to": request.form.get("uid2"),
-        "timestamp": datetime.now().timestamp()
+        "text": request.json.get("text"),
+        "from": request.json.get("uid1"),
+        "to": request.json.get("uid2"),
+        "timestamp": datetime.now().timestamp(),
     }
 
     db.collection("chat").add(data)
@@ -21,7 +21,7 @@ def create_chat():
 @chat_bp.route("/get", methods=["POST"])
 def get_chats():
     docs_ref = (
-        db.collection("chat").where("from", "==", request.form.get("uid")).stream()
+        db.collection("chat").where("from", "==", request.json.get("uid")).stream()
     )
 
     documents = []
@@ -29,9 +29,7 @@ def get_chats():
     for doc in docs_ref:
         documents.append(doc.to_dict())
 
-    docs_ref = (
-        db.collection("chat").where("to", "==", request.form.get("uid")).stream()
-    )
+    docs_ref = db.collection("chat").where("to", "==", request.json.get("uid")).stream()
 
     for doc in docs_ref:
         documents.append(doc.to_dict())

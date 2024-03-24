@@ -7,7 +7,7 @@ intervention_bp = Blueprint("intervention", __name__, url_prefix="/intervention"
 
 @intervention_bp.route("/get-intervention-plan", methods=["POST"])
 def get_intervention_plan():
-    uid = request.form.get("uid")
+    uid = request.json.get("uid")
 
     document = db.collection("residents").where("uid", "==", uid).get()[0].to_dict()
 

@@ -21,12 +21,15 @@ export default function UserTableRow({
   selected,
   name,
   avatarUrl,
-  company,
+  housing,
   role,
+  Dates,
+  careTaker,
   isVerified,
   status,
   handleClick,
   onViewProfile,
+  
 }) {
   const [open, setOpen] = useState(null);
 
@@ -42,7 +45,19 @@ export default function UserTableRow({
     navigate('/user/residentInDetail');
     handleCloseMenu();
   };
-
+  const addDays = (date, days) => {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  };
+  const addRandomDays = (date) => {
+    const result = new Date(date);
+    const randomDays = Math.floor(Math.random() * (80 - 60 + 1)) + 60;
+    result.setDate(result.getDate() + randomDays);
+    return result;
+  };
+  let shortLongStayBoolean = housing === 'EMMERGENCY HOSTING' || housing === 'SHORT STAY UNIT' ||  housing === 'TRANSITION UNIT' ||  housing === 'YVONNE MAISONNEUVE HOUSE' ? false : true;
+  let endDate = shortLongStayBoolean ? addDays(Dates, 10).toLocaleDateString()  : addRandomDays(Dates).toLocaleDateString(); 
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
@@ -59,14 +74,14 @@ export default function UserTableRow({
           </Stack>
         </TableCell>
 
-        <TableCell>{company}</TableCell>
+        <TableCell>{housing}</TableCell>
 
-        <TableCell>{role}</TableCell>
-        <TableCell>{role}</TableCell>
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
+        <TableCell>{Dates}</TableCell>
+        <TableCell>{endDate}</TableCell>
+        <TableCell align="center">{careTaker}</TableCell>
 
-        <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
+        <TableCell align = 'center'>
+          <Label color={(careTaker === 'None' && 'error') || 'success'}>{(careTaker === 'None' && 'Not Assigned') || 'Assigned'}</Label>
         </TableCell>
 
         <TableCell align="right">
@@ -88,12 +103,7 @@ export default function UserTableRow({
       >
         <MenuItem onClick={handleViewProfile}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          View Profile
-        </MenuItem>
-
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit Profile
+          Profile
         </MenuItem>
       </Popover>
     </>
@@ -102,11 +112,13 @@ export default function UserTableRow({
 
 UserTableRow.propTypes = {
   avatarUrl: PropTypes.any,
-  company: PropTypes.any,
+  housing: PropTypes.any,
   handleClick: PropTypes.func,
   isVerified: PropTypes.any,
   name: PropTypes.any,
   role: PropTypes.any,
+  Dates: PropTypes.any,
+  careTaker : PropTypes.any,
   selected: PropTypes.any,
   status: PropTypes.string,
   onViewProfile: PropTypes.func.isRequired,

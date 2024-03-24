@@ -52,10 +52,10 @@ function EventItem({ item, lastTimeline }) {
       <TimelineSeparator>
         <TimelineDot
           color={
-            (type === 'regular' && 'primary') ||
-            (type === 'regular2' && 'success') ||
-            (type === 'regular3' && 'info') ||
-            (type === 'regular4' && 'warning') ||
+            (type === 'appointment' && 'primary') ||
+            (type === 'checkpoint' && 'success') ||
+            (type === 'meeting' && 'info') ||
+            (type === 'emergency' && 'warning') ||
             'error'
           }
         />

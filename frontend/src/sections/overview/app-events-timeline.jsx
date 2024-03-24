@@ -14,7 +14,7 @@ import { fDateTime } from 'src/utils/format-time';
 
 // ----------------------------------------------------------------------
 
-export default function AnalyticsOrderTimeline({ title, subheader, list, ...other }) {
+export default function EventsTimeline({ title, subheader, list, ...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -30,14 +30,14 @@ export default function AnalyticsOrderTimeline({ title, subheader, list, ...othe
         }}
       >
         {list.map((item, index) => (
-          <OrderItem key={item.id} item={item} lastTimeline={index === list.length - 1} />
+          <EventItem key={item.id} item={item} lastTimeline={index === list.length - 1} />
         ))}
       </Timeline>
     </Card>
   );
 }
 
-AnalyticsOrderTimeline.propTypes = {
+EventsTimeline.propTypes = {
   list: PropTypes.array,
   subheader: PropTypes.string,
   title: PropTypes.string,
@@ -45,17 +45,17 @@ AnalyticsOrderTimeline.propTypes = {
 
 // ----------------------------------------------------------------------
 
-function OrderItem({ item, lastTimeline }) {
+function EventItem({ item, lastTimeline }) {
   const { type, title, time } = item;
   return (
     <TimelineItem>
       <TimelineSeparator>
         <TimelineDot
           color={
-            (type === 'order1' && 'primary') ||
-            (type === 'order2' && 'success') ||
-            (type === 'order3' && 'info') ||
-            (type === 'order4' && 'warning') ||
+            (type === 'regular' && 'primary') ||
+            (type === 'regular2' && 'success') ||
+            (type === 'regular3' && 'info') ||
+            (type === 'regular4' && 'warning') ||
             'error'
           }
         />
@@ -73,7 +73,7 @@ function OrderItem({ item, lastTimeline }) {
   );
 }
 
-OrderItem.propTypes = {
+EventItem.propTypes = {
   item: PropTypes.object,
   lastTimeline: PropTypes.bool,
 };

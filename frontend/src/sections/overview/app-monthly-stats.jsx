@@ -4,37 +4,38 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 
-import { fNumber } from 'src/utils/format-number';
-
 import Chart, { useChart } from 'src/components/chart';
 
 // ----------------------------------------------------------------------
 
-export default function AppConversionRates({ title, subheader, chart, ...other }) {
-  const { colors, series, options } = chart;
-
-  const chartSeries = series.map((i) => i.value);
+export default function AppMonthlyStats({ title, subheader, chart, ...other }) {
+  const { labels, colors, series, options } = chart;
 
   const chartOptions = useChart({
     colors,
-    tooltip: {
-      marker: { show: false },
-      y: {
-        formatter: (value) => fNumber(value),
-        title: {
-          formatter: () => '',
-        },
-      },
-    },
     plotOptions: {
       bar: {
-        horizontal: true,
-        barHeight: '28%',
-        borderRadius: 2,
+        columnWidth: '16%',
       },
     },
+    fill: {
+      type: series.map((i) => i.fill),
+    },
+    labels,
     xaxis: {
-      categories: series.map((i) => i.label),
+      type: 'datetime',
+    },
+    tooltip: {
+      shared: true,
+      intersect: false,
+      y: {
+        formatter: (value) => {
+          if (typeof value !== 'undefined') {
+            return `${value.toFixed(0)}`;
+          }
+          return value;
+        },
+      },
     },
     ...options,
   });
@@ -43,11 +44,11 @@ export default function AppConversionRates({ title, subheader, chart, ...other }
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
 
-      <Box sx={{ mx: 3 }}>
+      <Box sx={{ p: 3, pb: 1 }}>
         <Chart
           dir="ltr"
-          type="bar"
-          series={[{ data: chartSeries }]}
+          type="line"
+          series={series}
           options={chartOptions}
           width="100%"
           height={364}
@@ -57,7 +58,7 @@ export default function AppConversionRates({ title, subheader, chart, ...other }
   );
 }
 
-AppConversionRates.propTypes = {
+AppMonthlyStats.propTypes = {
   chart: PropTypes.object,
   subheader: PropTypes.string,
   title: PropTypes.string,

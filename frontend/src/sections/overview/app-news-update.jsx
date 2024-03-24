@@ -8,9 +8,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
-
 import { fToNow } from 'src/utils/format-time';
-
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
@@ -24,7 +22,7 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
           {list.map((news) => (
-            <NewsItem key={news.id} news={news} />
+            <NoteItem key={news.id} news={news} />
           ))}
         </Stack>
       </Scrollbar>
@@ -52,7 +50,7 @@ AppNewsUpdate.propTypes = {
 
 // ----------------------------------------------------------------------
 
-function NewsItem({ news }) {
+function NoteItem({ news }) {
   const { image, title, description, postedAt } = news;
 
   return (
@@ -81,7 +79,7 @@ function NewsItem({ news }) {
   );
 }
 
-NewsItem.propTypes = {
+NoteItem.propTypes = {
   news: PropTypes.shape({
     image: PropTypes.string,
     title: PropTypes.string,

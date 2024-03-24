@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
@@ -10,11 +10,12 @@ import Typography from '@mui/material/Typography';
 import { Radio, RadioGroup, FormControlLabel  } from '@mui/material';
 import AppHousingOccupancy from '../app-housing-occupancy';
 import AppGoalStats from '../app-goal-stats';
-import AppNewsUpdate from '../app-news-update';
+import AppEventsOfDay from '../app-events-by-date';
 import AppMonthlyStats from '../app-monthly-stats';
 import EventsTimeline from '../app-events-timeline';
 import AppWidgetSummary from '../app-widget-summary';
 import AppResidentDemographics from '../app-resident-demographics';
+import AppNotesOfDay from '../app-notes-by-date';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +27,7 @@ export default function AppView() {
     const [residentNum, setResidentNum] = useState(150);
     const [caretakerNum, setCaretakertNum] = useState(50);
     const [firstTimers, setFirstTimers] = useState(38);
+
     const [housingOccupancy, setHousingOccupancy] = useState([
       { 
         name: "Emergency Housing", 
@@ -113,52 +115,6 @@ export default function AppView() {
       },
     })
 
-    const [recentEvents, setEvents] = useState([
-      {
-        uid: 2,
-        title: 'crisis intervention 1',
-        follow_up_date: 'Fri, 20 Mar 2024 04:00:00 GMT',
-        communication_method: 'in person',
-        type: 'regular1',
-        resident: 'Jane Doe'
-      },
-      {
-        uid: 1,
-        title: 'follow up 1',
-        follow_up_date: 'Sat, 15 Mar 2024 04:00:00 GMT',
-        communication_method: 'in person',
-        type: 'regular2',
-        resident: 'John Doe'
-      },
-      {
-        uid: 1,
-        title: 'follow up 1',
-        follow_up_date: 'Sat, 5 Mar 2024 04:00:00 GMT',
-        communication_method: 'zoom meeting',
-        type: 'regular',
-        resident: 'Jane Doe'
-      }
-    ])
-
-    const [upcomingEvents, setUpcomingEvents] = useState([
-      {
-        uid: 1,
-        title: 'follow up 2',
-        follow_up_date: 'Sat, 30 Mar 2024 04:00:00 GMT',
-        communication_method: 'in person',
-        type: 'regular2',
-        resident: 'John Doe'
-      },
-      {
-        uid: 2,
-        title: 'follow up 2',
-        follow_up_date: 'Fri, 29 Mar 2024 04:00:00 GMT',
-        communication_method: 'zoom meeting',
-        type: 'regular',
-        resident: 'Jane Doe'
-      },
-    ])
-
     const [monthlyStats, setMonthlyStats] = useState([
       {
         name: 'Number of Goals Completed',
@@ -180,26 +136,98 @@ export default function AppView() {
       },
     ])
 
+    const [events, setEvents] = useState([
+      {
+        uid: 1,
+        title: 'crisis intervention 1',
+        follow_up_date: 'Fri, 22 Mar 2024 04:00:00 GMT',
+        communication_method: 'in person',
+        type: 'appointment',
+        notes: 'Resident was in a crisis situation and needed immediate intervention.',
+        resident: 'Jane Doe'
+      },
+      {
+        uid: 2,
+        title: 'follow up 1',
+        follow_up_date: 'Fri, 15 Mar 2024 05:00:00 GMT',
+        communication_method: 'in person',
+        type: 'meeting',
+        notes: 'Meeting with treatment team.',
+        resident: 'John Doe'
+      },
+      {
+        uid: 3,
+        title: 'follow up 1',
+        follow_up_date: 'Fri, 15 Mar 2024 12:00:00 GMT',
+        communication_method: 'email',
+        type: 'checkpoint',
+        notes: 'Routine check up. Resident is progressing well.',
+        resident: 'Jane Doe'
+      }, {
+        uid: 4,
+        title: 'follow up 3',
+        follow_up_date: 'Sat, 30 Mar 2024 05:00:00 GMT',
+        communication_method: 'in person',
+        type: 'appointment',
+        notes: 'Appointment with legal counselor to get advice on refugee status.',
+        resident: 'John Doe'
+      },
+      {
+        uid: 5,
+        title: 'follow up 2',
+        follow_up_date: 'Fri, 29 Mar 2024 04:00:00 GMT',
+        communication_method: 'in person',
+        type: 'checkpoint',
+        notes: 'Routine check up. Active listening and helped client with employment issue.',
+        resident: 'Jane Doe'
+      },
+      {
+        uid: 6,
+        title: 'follow up 2',
+        follow_up_date: 'Mon, 25 Mar 2024 04:00:00 GMT',
+        communication_method: 'phone',
+        type: 'meeting',
+        notes: 'Routine check up. Resident is progressing well.',
+        resident: 'John Doe'
+      },
+    ])
+
     const [chronologicalNotes, setChronologicalNotes] = useState([
       {
-        date: "Fri, 22 Mar 2024 04:00:00 GMT",
+        date: "Fri, 22 Mar 2024 09:00:00 GMT",
         title: "Register for Legal Clinic",
+        type: "action",
         details: "Failed to see the legal clinic in February, re-registers for March.",
         resident_name: "Jane Doe"
       },
       {
-        date: "Sat, 23 Mar 2024 04:00:00 GMT",
+        date: "Sat, 23 Mar 2024 18:00:00 GMT",
         title: "Set up a meeting with Mr. X",
+        type: "appointment",
         details: "Following registration. Mrs. must call Mr.X, at (514)xxx-xxxx, posted today, until noon or between 2:00 p.m. and 4:30 p.m. He will ask her questions in order to direct her to the right services.",
         resident_name: "John Doe"
-      }
+      },
+      {
+        date: "Wed, 20 Mar 2024 16:00:00 GMT",
+        title: "Offer meeting at Medical Clinic",
+        type: "appointment",
+        details: "The coordinator came to offer her this appointment, easy to access, to talk with a doctor about her symptoms, (as mentioned since the beginning of February) who has test or analysis results to communicate to her. ",
+        resident_name: "Jane Doe"
+      },
     ])
 
     const mark = [
       '08-05-2024',
       '03-30-2024',
       '05-03-2024'
-  ]       
+  ]
+
+  useEffect(() => {
+    fetch('/get-top-tiles-data')
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+  }, []);
 
   return (
     <Container maxWidth="xl">
@@ -244,6 +272,45 @@ export default function AppView() {
           />
         </Grid>
 
+        <Grid xs={12} md={6} lg={4}>
+          <AppGoalStats
+            title="Global Intervention Statistics"
+            list={[
+              {
+                name: 'Goal Success Rate',
+                value: "80%",
+                icon:  <img src="/assets/icons/glass/ic_glass_reward.png" width={32} alt="success" />,
+              },
+              {
+                name: 'Goal Pause Rate',
+                value: "15%",
+                icon: <img src="/assets/icons/glass/ic_glass_pause.png" width={32} alt="pause" />,
+              },
+              {
+                name: 'Average Goal Duration (days)',
+                value: 45,
+                icon: <img src="/assets/icons/glass/ic_glass_duration.png" width={32} alt="duration" />,
+              },
+              {
+                name: 'Society Reintegration Rate',
+                value: "80%",
+                icon: <img src="/assets/icons/glass/ic_glass_health.png" width={32} alt="health_aspect" />,
+              },
+              {
+                name: 'Transitions to Permanent Housing',
+                value: 755,
+                icon: <img src="/assets/icons/glass/ic_glass_health.png" width={32} alt="health_aspect" />,
+              },
+              {
+                name: 'Most Common Health Aspect',
+                value: "Mental Health",
+                icon: <img src="/assets/icons/glass/ic_glass_health.png" width={32} alt="health_aspect" />,
+              },
+              
+            ]}
+          />
+        </Grid>
+
         <Grid xs={12} md={6} lg={8}>
           <AppMonthlyStats
             title="Monthly Tracking"
@@ -264,34 +331,6 @@ export default function AppView() {
               ],
               series: monthlyStats,
             }}
-          />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={4}>
-          <AppGoalStats
-            title="Goal Completion Statistics"
-            list={[
-              {
-                name: 'Success Rate',
-                value: "40%",
-                icon:  <img src="/assets/icons/glass/ic_glass_reward.png" width={32} alt="success" />,
-              },
-              {
-                name: 'Pause Rate',
-                value: "20%",
-                icon: <img src="/assets/icons/glass/ic_glass_pause.png" width={32} alt="pause" />,
-              },
-              {
-                name: 'Average Duration (days)',
-                value: 17,
-                icon: <img src="/assets/icons/glass/ic_glass_duration.png" width={32} alt="duration" />,
-              },
-              {
-                name: 'Most Common Health Aspect',
-                value: "Global Health",
-                icon: <img src="/assets/icons/glass/ic_glass_health.png" width={32} alt="health_aspect" />,
-              },
-            ]}
           />
         </Grid>
 
@@ -328,33 +367,9 @@ export default function AppView() {
         />
         </Grid>
 
-        <Grid xs={12} md={6} lg={4}>
-          <EventsTimeline
-            title="Recent Events"
-            list={recentEvents.map(event => ({
-              id: event.uid,
-              title: `${event.resident}, ${event.title}, ${event.communication_method}`,
-              type: event.type,
-              time: new Date(event.follow_up_date),
-            }))}
-          />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={4}>
-          <EventsTimeline
-            title="Upcoming Events"
-            list={upcomingEvents.map(event => ({
-              id: event.uid,
-              title: `${event.resident}, ${event.title}, ${event.communication_method}`,
-              type: event.type,
-              time: new Date(event.follow_up_date),
-            }))}
-          />
-        </Grid>
-
-         <Grid xs={12} md={6} lg={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Grid xs={12} md={6} lg={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Calendar
-            style={{ height: 500 }}
+            style={{ height: 800, width: 800}}
             onChange={setSelectedDate}
             value={selectedDate}
             tileClassName={({ date, view }) => {
@@ -362,14 +377,68 @@ export default function AppView() {
                 return  'highlight'
               }
             }}
-              tileDisabled={({ date }) => date.getDay() === 0}
             />
         </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
-          <AppNewsUpdate
-            title="Chronological Notes"
-            list={chronologicalNotes.filter(note => moment(note.date).isSame(selectedDate, 'day'))}
+        <Grid xs={12} md={6} lg={4}>
+          <EventsTimeline
+            title="Upcoming Events"
+            list={events
+              .filter(event => new Date(event.follow_up_date) > new Date())
+              .sort((a, b) => new Date(b.follow_up_date) - new Date(a.follow_up_date))
+              .slice(0, 3)
+              .map(event => ({
+              id: event.uid,
+              title: `${event.resident}, ${event.title}, ${event.communication_method}`,
+              type: event.type,
+              time: new Date(event.follow_up_date),
+            }))}
+          />
+        </Grid>
+
+        <Grid xs={12} md={6} lg={4}>
+          <EventsTimeline
+            title="Recent Events"
+            list={events
+              .filter(event => new Date(event.follow_up_date) <= new Date())
+              .sort((a, b) => new Date(b.follow_up_date) - new Date(a.follow_up_date))
+              .slice(0, 3)
+              .map(event => ({
+              id: event.uid,
+              title: `${event.resident}, ${event.title}, ${event.communication_method}`,
+              type: event.type,
+              time: new Date(event.follow_up_date),
+            }))}
+          />
+        </Grid>
+
+        <Grid xs={12} md={6} lg={6}>
+          <AppNotesOfDay
+            title={`Notes (${moment(selectedDate).format('DD/MM/YYYY')})`}
+            list={
+              chronologicalNotes.filter(note => moment(note.date).isSame(selectedDate, 'day')).map(note => ({
+                title: note.title,
+                date: new Date(note.date),
+                description: note.details,
+                resident: note.resident_name
+              }))
+            }
+          />
+        </Grid>
+
+        <Grid xs={12} md={6} lg={6}>
+          <AppEventsOfDay
+            title={`Events (${moment(selectedDate).format('DD/MM/YYYY')})`}
+            list={
+              events.filter(event => moment(event.follow_up_date).isSame(selectedDate, 'day')).map(event => ({
+                title: event.title,
+                date: new Date(event.follow_up_date),
+                notes: event.notes,
+                resident: event.resident,
+                type: event.type,
+                communication_method: event.communication_method
+              }))
+            }
           />
         </Grid>
 

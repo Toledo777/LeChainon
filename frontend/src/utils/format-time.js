@@ -14,6 +14,12 @@ export function fDateTime(date, newFormat) {
   return date ? format(new Date(date), fm) : '';
 }
 
+export function fFormatTime(date, newFormat) {
+  const fm = newFormat || 'p';
+
+  return date ? format(new Date(date), fm) : '';
+}
+
 export function fTimestamp(date) {
   return date ? getTime(new Date(date)) : '';
 }

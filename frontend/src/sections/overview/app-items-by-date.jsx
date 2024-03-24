@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
@@ -14,7 +14,7 @@ import Scrollbar from 'src/components/scrollbar';
 
 // ----------------------------------------------------------------------
 
-export default function AppEventsOfDay({ title, subheader, list, ...other }) {
+export default function AppItemsOfDay({ title, subheader, itemType, list, ...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -22,7 +22,9 @@ export default function AppEventsOfDay({ title, subheader, list, ...other }) {
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
           {list.map((news) => (
-            <EventItem key={news.id} news={news} />
+            itemType === 'note' 
+            ? (<NoteItem key={news.id} news={news} />) 
+            : (<EventItem key={news.id} news={news} />) 
           ))}
         </Stack>
       </Scrollbar>
@@ -42,16 +44,69 @@ export default function AppEventsOfDay({ title, subheader, list, ...other }) {
   );
 }
 
-AppEventsOfDay.propTypes = {
+AppItemsOfDay.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
+  itemType : PropTypes.string,
   list: PropTypes.array.isRequired,
 };
 
 // ----------------------------------------------------------------------
 
+function NoteItem({ news }) {
+  const { title, description, date, resident, type } = news;
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <Stack direction="row" alignItems="center" spacing={2}>
+      <Box
+        component="img"
+        alt={title}
+        src="/assets/icons/glass/ic_glass_notes.png"
+        sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }}
+      />
+
+      <Box sx={{ minWidth: 240, flexGrow: 1 }}>
+        <Link 
+          color="inherit" 
+          variant="subtitle2" 
+          underline="hover" 
+          noWrap
+          sx={{ cursor: 'pointer' }}
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          {title}
+        </Link>
+
+        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+          {resident}
+        </Typography>
+
+        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap={!isExpanded} >
+          {description}
+        </Typography>
+      </Box>
+
+      <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
+        {fFormatTime(date)}
+      </Typography>
+    </Stack>
+  );
+}
+
+NoteItem.propTypes = {
+  news: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+    date: PropTypes.instanceOf(Date),
+    type: PropTypes.string,
+    resident: PropTypes.string,
+  }),
+};
+
 function EventItem({ news }) {
   const { title, notes, date, resident, type, communication_method } = news;
+  const [isExpanded, setIsExpanded] = useState(false);
 
   let iconSrc = '';
   if (type === 'appointment') {
@@ -74,7 +129,14 @@ function EventItem({ news }) {
       />
 
       <Box sx={{ minWidth: 240, flexGrow: 1 }}>
-        <Link color="inherit" variant="subtitle2" underline="hover" noWrap>
+        <Link 
+          color="inherit" 
+          variant="subtitle2" 
+          underline="hover" 
+          noWrap
+          sx={{ cursor: 'pointer' }}
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
           {title}
         </Link>
 
@@ -83,6 +145,10 @@ function EventItem({ news }) {
         </Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+          {communication_method}
+        </Typography>
+
+        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap={!isExpanded}>
           {notes}
         </Typography>
       </Box>

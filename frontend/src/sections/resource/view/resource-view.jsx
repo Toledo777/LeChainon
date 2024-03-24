@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -15,6 +16,27 @@ import PostSearch from '../post-search';
 // ----------------------------------------------------------------------
 
 export default function ResourceView() {
+  // use effect here
+  let result = '';
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2' }),
+      };
+      const response = await fetch('http://localhost:8000/resources/get', requestOptions);
+      result = await response.json();
+      console.log(result);
+      setData(result);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -37,8 +59,8 @@ export default function ResourceView() {
       </Stack> */}
 
       <Grid container spacing={3}>
-        {posts.map((post, index) => (
-          <PostCard key={post.id} post={post} index={index} />
+        {result.map((results, index) => (
+          <PostCard key={results.id} results={results} index={index} />
         ))}
       </Grid>
     </Container>

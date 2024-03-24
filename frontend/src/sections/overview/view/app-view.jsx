@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { faker } from '@faker-js/faker';
 import moment from 'moment';
+import { useState } from 'react';
+import Calendar from 'react-calendar';
+import { faker } from '@faker-js/faker';
+import 'react-calendar/dist/Calendar.css';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
 import Iconify from 'src/components/iconify';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
 
 import AppTasks from '../app-tasks';
 import AppChronologicalNotes from '../app-chronological-notes';
@@ -22,7 +22,6 @@ import { RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import CaretakerEventsTimeline from '../app-caretaker-events-timeline';
 
 // ----------------------------------------------------------------------
-
 
 export default function AppView() {
     const [selectedDate, setSelectedDate] = useState(new Date());

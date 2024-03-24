@@ -192,7 +192,7 @@ export default function ResidentView() {
                 'Find resources to access affordable housing',
               ][index],
               type: `order${index + 1}`,
-              time: faker.date.past(),
+              time: '',
             }))}
           />
         </Grid>

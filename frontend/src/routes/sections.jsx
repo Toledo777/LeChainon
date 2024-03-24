@@ -9,6 +9,8 @@ export const MessagesPage = lazy(() => import('src/pages/messages'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
+export const ResidentDashPage = lazy(() => import('src/pages/resident-dash'));
+export const ResidentInDetailPage = lazy(() => import('src/pages/residentInDetail'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // ----------------------------------------------------------------------
@@ -31,13 +33,13 @@ export default function Router() {
         { path: 'products', element: <ProductsPage /> },
         { path: 'resource', element: <ResourcePage /> },
         { path: 'messages', element: <MessagesPage /> },
-        { path: 'resident-dash', element: <ResidentDash />},
+        { path: 'resident-dash', element: <ResidentDashPage /> },
         { path: 'user/residentInDetail', element: <ResidentInDetailPage /> },
       ],
     },
     {
       path: 'resident-dash',
-      element: <ResidentDash />
+      element: <ResidentDashPage />,
     },
     {
       path: 'login',

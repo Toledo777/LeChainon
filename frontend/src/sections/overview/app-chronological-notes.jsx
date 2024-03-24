@@ -16,7 +16,7 @@ import Scrollbar from 'src/components/scrollbar';
 
 // ----------------------------------------------------------------------
 
-export default function AppNewsUpdate({ title, subheader, list, ...other }) {
+export default function AppChronologicalNotes({ title, subheader, list, ...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -24,7 +24,7 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
           {list.map((news) => (
-            <NewsItem key={news.id} news={news} />
+            <NoteItem key={news.id} news={news} />
           ))}
         </Stack>
       </Scrollbar>
@@ -44,7 +44,7 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
   );
 }
 
-AppNewsUpdate.propTypes = {
+AppChronologicalNotes.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
   list: PropTypes.array.isRequired,
@@ -52,7 +52,7 @@ AppNewsUpdate.propTypes = {
 
 // ----------------------------------------------------------------------
 
-function NewsItem({ news }) {
+function NoteItem({ news }) {
   const { image, title, description, postedAt } = news;
 
   return (
@@ -81,7 +81,7 @@ function NewsItem({ news }) {
   );
 }
 
-NewsItem.propTypes = {
+NoteItem.propTypes = {
   news: PropTypes.shape({
     image: PropTypes.string,
     title: PropTypes.string,

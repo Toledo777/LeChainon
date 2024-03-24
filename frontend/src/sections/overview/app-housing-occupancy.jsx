@@ -10,7 +10,7 @@ import Chart, { useChart } from 'src/components/chart';
 
 // ----------------------------------------------------------------------
 
-export default function AppConversionRates({ title, subheader, chart, ...other }) {
+export default function AppHousingOccupancy({ title, subheader, chart, ...other }) {
   const { colors, series, options } = chart;
 
   const chartSeries = series.map((i) => i.value);
@@ -57,7 +57,7 @@ export default function AppConversionRates({ title, subheader, chart, ...other }
   );
 }
 
-AppConversionRates.propTypes = {
+AppHousingOccupancy.propTypes = {
   chart: PropTypes.object,
   subheader: PropTypes.string,
   title: PropTypes.string,

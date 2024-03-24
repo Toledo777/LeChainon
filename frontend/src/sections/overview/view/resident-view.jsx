@@ -70,7 +70,7 @@ export default function ResidentView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Bug Reports"
+            title="Tasks TO-DO"
             total={234}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
@@ -130,10 +130,7 @@ export default function ResidentView() {
                 return  'highlight'
               }
             }}
-
-
               tileDisabled={({ date }) => date.getDay() === 0}
-
               minDate={
                 new Date()
               }

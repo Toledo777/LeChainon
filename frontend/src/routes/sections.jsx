@@ -23,13 +23,21 @@ export default function Router() {
           </Suspense>
         </DashboardLayout>
       ),
+
+      // To get nav to appear, add new pages as children here
       children: [
         { element: <IndexPage />, index: true },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'resource', element: <ResourcePage /> },
         { path: 'messages', element: <MessagesPage /> },
+        { path: 'resident-dash', element: <ResidentDash />},
+        { path: 'user/residentInDetail', element: <ResidentInDetailPage /> },
       ],
+    },
+    {
+      path: 'resident-dash',
+      element: <ResidentDash />
     },
     {
       path: 'login',

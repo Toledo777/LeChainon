@@ -34,9 +34,41 @@ def get_user_data():
         t = d.to_dict()
         temp = []
         for a in t["assigned_caregivers"]:
-            temp.append(db.collection("employees").where("uid", "==", a).get()[0].to_dict())
+            temp.append(
+                db.collection("employees").where("uid", "==", a).get()[0].to_dict()
+            )
         t["assigned_caregivers"] = temp
         documents.append(t)
 
-
     return jsonify({"message": "Success!", "residents": documents}), 200
+
+
+@caregivers_bp.route("/get-all-follow-ups", methods=["POST"])
+def get_all_follow_ups():
+    docs_ref = (
+        db.collection("follow_ups")
+        .where("cuid", "==", request.form.get("cuid"))
+        .stream()
+    )
+    documents = []
+
+    for d in docs_ref:
+        documents.append(d.to_dict())
+
+    return jsonify({"message": "Success!", "follow_ups": documents}), 200
+
+
+@caregivers_bp.route("/get-resident-follow-ups", methods=["POST"])
+def get_resident_follow_ups():
+    docs_ref = (
+        db.collection("follow_ups")
+        .where("cuid", "==", request.form.get("cuid"))
+        .where("uid", "==", request.form.get("uid"))
+        .stream()
+    )
+    documents = []
+
+    for d in docs_ref:
+        documents.append(d.to_dict())
+
+    return jsonify({"message": "Success!", "follow_ups": documents}), 200

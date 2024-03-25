@@ -11,36 +11,57 @@ export default function ResourceView() {
   const inputRef = useRef(null);
   const chatboxRef = useRef(null);
 
-  // Function to generate fake messages sent by a sender
-  const generateFakeMessages = () => {
-    const numMessages = 1;
-    const fakeMessages = [];
-
-    // Generate each fake message
-    for (let i = 0; i < numMessages; i += 1) {
-      // Pretend to have a sender named "Fake Sender"
-      const fakeMessage = {
-        text: `Fake message ${i + 1}`,
-        sender: 'Fake Sender',
+  const fetchData = async () => {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2' }),
       };
-      fakeMessages.push(fakeMessage);
-    }
+      const response = await fetch('http://localhost:8000/chat/get', requestOptions);
+      const result = await response.json();
+      console.log(result);
 
-    // Set the fake messages in the state
-    setMessages((prevMessages) => [...prevMessages, ...fakeMessages]);
+      // Extract the chats from the result and set them in the state
+      if (result && result.chats) {
+        setMessages(
+          result.chats.map((chat) => ({
+            text: chat.text,
+            sender: chat.from === 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2' ? 'user' : 'other',
+          }))
+        );
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
-  // Simulate sending fake messages at intervals
+  // Fetch initial data on component mount
   useEffect(() => {
-    const intervalId = setInterval(generateFakeMessages, 10000); // Send fake messages every 10 seconds
-    return () => clearInterval(intervalId);
+    fetchData();
   }, []);
 
-  const handleMessageSend = () => {
+  const handleMessageSend = async () => {
     const message = inputRef.current.value;
     if (message) {
-      setMessages((prevMessages) => [...prevMessages, { text: message, sender: 'user' }]);
+      const newMessage = { text: message, sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
       inputRef.current.value = '';
+
+      try {
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            uid1: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2',
+            uid2: 'ls3YYsM7BxctoAXDJzMAMgG4lAg1',
+            text: message,
+          }),
+        };
+        await fetch('http://localhost:8000/chat/create', requestOptions);
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
     }
   };
 

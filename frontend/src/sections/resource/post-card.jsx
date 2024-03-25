@@ -36,8 +36,11 @@ export default function PostCard({ post, index }) {
         }),
       }}
       href={link} // Link URL
+      target="_blank" // Open link in new tab
     >
-      {title}
+      <Typography variant="subtitle2" color="textPrimary">
+        {title}
+      </Typography>
     </Link>
   );
 
@@ -96,7 +99,6 @@ export default function PostCard({ post, index }) {
                   width: '100%',
                   height: '100%',
                   position: 'absolute',
-                  bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
                 },
               }),
               ...(latestPostLarge && {

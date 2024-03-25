@@ -68,15 +68,49 @@ const InterventionForm = () => {
 
   const fetchData = async () => {
     try {
-      const requestOptions = {
+      let requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ uid: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2' })
     };
-      const response = await fetch('http://localhost:8000/intervention/get-intervention-plan', requestOptions);
-      const result = await response.json();
-      console.log(result);
-      setData(result);
+      let response = await fetch('http://localhost:8000/intervention/get-intervention-plan-page', requestOptions);
+      let result = await response.json();
+      let data = result["plan"]
+      setCaseworker(data["caseworker"])
+      setName(data["name"])
+      let goal_arr = [];
+      let goal_arr_d = [];
+      let means_arr = [];
+      
+      for (let p of data["plan"]) {
+        for (let goal of p["goals"]) {
+          goal_arr.push(goal["goal_title"]);
+          goal_arr_d.push(goal["description"]);
+          means_arr.push(goal["means"]);
+        }
+      }
+      setStartDate(new Date(data["stay_start_date"]).toISOString().slice(0,10))
+      setPlanStartDate(new Date(data["plan_start_date"]).toISOString().slice(0,10))
+      setGoalTracking(goal_arr);
+      setLongTermGoals(goal_arr_d);
+      setMeans(means_arr);
+      setPossibleInterventions(data["plan"][0]["possible_interventions"])
+      setPending("Make an appointment")
+
+
+      requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2' })
+    };
+      response = await fetch('http://localhost:8000/intervention/get-intervention-plan', requestOptions);
+      result = await response.json();
+      result = result["plan"]["chronoogical_notes"];
+      let s = ""
+      for (let c of result) {
+        s += c["title"] + "\n" + c["details"] + "\n\n";
+      }
+      setChronologicalNotes(s);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -106,6 +140,7 @@ const InterventionForm = () => {
         setState(newItems);
     };
 
+  if (goalTracking.length == 0) return <h1>Loading</h1>
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>

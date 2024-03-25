@@ -99,3 +99,36 @@ def create_intervention_plan():
     db.collection("interventions").add(interventions)
 
     return jsonify({"message": "Success!"}), 200
+
+
+@intervention_bp.route("/get-intervention-plan-page", methods=["POST"])
+def create_intervention_plan_page():
+    uid = request.json.get("uid")
+
+    d_ref = db.collection("interventions").where("uid", "==", uid).stream()
+    o = {}
+    documents = []
+
+    for d in d_ref:
+        d = d.to_dict()
+        idArr = d["goals"]
+        g = []
+        for i in idArr:
+            g.append(db.collection("goals").document(i).get().to_dict())
+        d["goals"] = g
+        documents.append(d)
+    o["plan"] = documents
+    d = db.collection("residents").where("uid", "==", uid).get()[0].to_dict()
+    o["stay_start_date"] = d["stay_start_date"]
+    o["plan_start_date"] = d["plan_start_date"]
+    
+    o["name"] = d["first_name"] + " " + d["last_name"]
+    name = ""
+    for a in d["assigned_caregivers"]:
+        t = db.collection("employees").where("uid", "==", a).get()[0].to_dict()
+        name += t["first_name"] + " " + t["last_name"]
+
+    o["caseworker"] = name
+
+
+    return jsonify({"message": "Success!", "plan": o}), 200

@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+import { useState,useEffect } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -9,7 +8,6 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-
 import { users } from 'src/_mock/user';
 
 import Iconify from 'src/components/iconify';
@@ -39,7 +37,10 @@ export default function UserPage() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [showProfile, setShowProfile] = useState(false); 
-
+  const [data, setData] = useState([]);
+  const [interventionData, setinterventionData] = useState([]);
+  const [rowData, setUserData] = useState(null);
+  
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
@@ -48,6 +49,48 @@ export default function UserPage() {
     }
   };
 
+  const fetchData = async () => {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: 'ls3YYsM7BxctoAXDJzMAMgG4lAg1' })
+    };
+      const response = await fetch('http://localhost:8000/caregiver/get-user-data', requestOptions);
+      const result = await response.json();
+      console.log(result.residents);
+      console.log("test");
+      setData(result.residents);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchInterventionData = async () => {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2' })
+    };
+    console.log("test");
+      const response = await fetch('http://localhost:8000/intervention/get-intervention-plan', requestOptions);
+      const result = await response.json();
+     
+      console.log(result.plan);
+      setinterventionData(result.plan);
+    } catch (error) {
+      console.log("test exception");
+      console.error('Error fetching data:', error);
+    }
+  };
+  useEffect(() => {
+    console.log("test useEffect")
+    fetchInterventionData();
+  }, []);
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = users.map((n) => n.name);
@@ -89,10 +132,6 @@ export default function UserPage() {
     setFilterName(event.target.value);
   };
 
-  const handleViewProfile = () => {
-    setShowProfile(true); 
-  };
-
   const dataFiltered = applyFilter({
     inputData: users,
     comparator: getComparator(order, orderBy),
@@ -101,6 +140,12 @@ export default function UserPage() {
 
   const notFound = !dataFiltered.length && !!filterName;
 
+  const handleViewProfile = (selectedUserData) => {
+    setShowProfile(true); 
+    console.log(selectedUserData);
+    setUserData(selectedUserData);
+  };
+  
   return (
     <Container>
         {!showProfile ? (
@@ -141,21 +186,16 @@ export default function UserPage() {
                 ]}
               />
               <TableBody>
-                {dataFiltered
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
+                {data.map((row) => (
                     <UserTableRow
-                      key={row.id}
-                      name={row.name}
-                      role={row.role}
-                      Dates={row.Dates}
-                      careTaker = {row.careTaker}
-                      status={row.status}
-                      housing={row.Housing}
-                      isVerified={row.isVerified}
-                      selected={selected.indexOf(row.name) !== -1}
+                      key={row.uid}
+                      name={`${row.first_name} ${row.last_name}`}
+                      currentAccomodation={row.current_accommodation}
+                      stayEndDate = {row.stay_end_date}
+                      stayStartDate = {row.stay_start_date}
+                      careTaker = {row.assigned_caregivers[0]?.first_name}
                       handleClick={(event) => handleClick(event, row.name)}
-                      onViewProfile={handleViewProfile}
+                      onViewProfile={() => handleViewProfile(row)}
                     />
                   ))}
 
@@ -181,9 +221,11 @@ export default function UserPage() {
         />
       </Card>
       </>
+
       ) : (
-        <ResidentInDetailPage />
+        <ResidentInDetailPage residentData={rowData} residentInterventionData = {interventionData}  />
       )}
     </Container>
+    
   );
 }

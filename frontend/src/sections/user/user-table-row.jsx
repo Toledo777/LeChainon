@@ -40,7 +40,7 @@ export default function UserTableRow({
   };
   const handleViewProfile = () => {
     onViewProfile();
-    navigate('/user/residentInDetail');
+  //  navigate('/user/residentInDetail');
     handleCloseMenu();
   };
   // const addDays = (date, days) => {
@@ -56,6 +56,15 @@ export default function UserTableRow({
   // };
 //  let shortLongStayBoolean = housing === 'EMMERGENCY HOSTING' || housing === 'SHORT STAY UNIT' ||  housing === 'TRANSITION UNIT' ||  housing === 'YVONNE MAISONNEUVE HOUSE' ? false : true;
 //  let endDate = shortLongStayBoolean ? addDays(Dates, 10).toLocaleDateString()  : addRandomDays(Dates).toLocaleDateString(); 
+const stayEnddateString = stayEndDate;
+const stayEnddateObject = new Date(stayEnddateString);
+
+const stayEndDateFormatted = `${stayEnddateObject.getMonth() + 1}/${stayEnddateObject.getDate()}/${stayEnddateObject.getFullYear()}`;
+
+const stayStartdateString = stayStartDate;
+const stayStartdateObject = new Date(stayStartdateString);
+
+const stayStartDateFormatted = `${stayStartdateObject.getMonth() + 1}/${stayStartdateObject.getDate()}/${stayStartdateObject.getFullYear()}`;
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
@@ -74,8 +83,8 @@ export default function UserTableRow({
 
         <TableCell>{currentAccomodation}</TableCell>
 
-        <TableCell>{stayStartDate}</TableCell>
-        <TableCell>{stayEndDate}</TableCell>
+        <TableCell>{stayStartDateFormatted}</TableCell>
+        <TableCell>{stayEndDateFormatted}</TableCell>
         <TableCell align="center">{careTaker}</TableCell>
 
         <TableCell align = 'center'>

@@ -22,7 +22,7 @@ import UserTableToolbar from '../user-table-toolbar';
 import { useEffect } from 'react';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
-export default function ResidentInDetailPage(props) {
+export default function ResidentInDetailPage({residentData , residentInterventionData}) {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -36,7 +36,7 @@ export default function ResidentInDetailPage(props) {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [showProfile, setShowProfile] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [data, setData] = useState(null);
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
@@ -44,7 +44,30 @@ export default function ResidentInDetailPage(props) {
       setOrderBy(id);
     }
   };
-
+console.log("test page");
+  const fetchData = async () => {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2' })
+    };
+    console.log("test");
+      const response = await fetch('http://localhost:8000/intervention/get-intervention-plan', requestOptions);
+      const result = await response.json();
+     
+      console.log(result.plan);
+      setData(result.plan);
+    } catch (error) {
+      console.log("test exception");
+      console.error('Error fetching data:', error);
+    }
+  };
+  useEffect(() => {
+    console.log("test useEffect")
+    fetchData();
+  }, []);
+  console.log(data)
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = users.map((n) => n.name);
@@ -53,6 +76,7 @@ export default function ResidentInDetailPage(props) {
     }
     setSelected([]);
   };
+
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -84,13 +108,21 @@ export default function ResidentInDetailPage(props) {
     setPage(0);
     setFilterName(event.target.value);
   };
-  console.log(props)
 
   const dataFiltered = applyFilter({
     inputData: users,
     comparator: getComparator(order, orderBy),
     filterName,
   });
+  const stayEnddateString = residentData.stay_end_date;
+  const stayEnddateObject = new Date(stayEnddateString);
+  
+  const stayEndDate = `${stayEnddateObject.getMonth() + 1}/${stayEnddateObject.getDate()}/${stayEnddateObject.getFullYear()}`;
+
+  const stayStartdateString = residentData.stay_start_date;
+  const stayStartdateObject = new Date(stayStartdateString);
+  
+  const stayStartDate = `${stayStartdateObject.getMonth() + 1}/${stayStartdateObject.getDate()}/${stayStartdateObject.getFullYear()}`;
 
  // const notFound = !dataFiltered.length && !!filterName;
 
@@ -103,38 +135,35 @@ export default function ResidentInDetailPage(props) {
           <Typography variant="h4" style={{ textIndent: '9px' }}>
             {' '}
             Basic Information
-            <IconButton >
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
           </Typography>
           <p style={{ textIndent: '40px' }}>
             {' '}
-            <strong>First Name:</strong> Name{' '}
+            <strong>First Name:</strong> {residentData.first_name} {' '}
           </p>
           <p style={{ textIndent: '40px' }}>
             {' '}
-            <strong>Last Name:</strong> Doe{' '}
+            <strong>Last Name:</strong> {residentData.last_name}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong> Age:</strong> 25
+            <strong> Age:</strong> {residentData.age}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>Borough:</strong> Montreal{' '}
+            <strong>Borough:</strong> {residentData.borough}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>Immigration Status: </strong> Refugee{' '}
+            <strong>Immigration Status: </strong> {residentData.immigration_status}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>Monthly Income:</strong> $1000{' '}
+            <strong>Monthly Income:</strong> {residentData.monthly_income}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>Current Accomodation</strong> Hotel XYZ{' '}
+            <strong>Current Accomodation</strong> {residentData.current_accommodation}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>Stay Start Date: </strong> 03/2/2024{' '}
+            <strong>Stay Start Date: </strong> {stayStartDate}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>Stay End Date: </strong> 04/2/2024{' '}
+            <strong>Stay End Date: </strong> {stayEndDate}{' '}
           </p>
         </Card>
       </Grid>
@@ -147,23 +176,23 @@ export default function ResidentInDetailPage(props) {
           </Typography>
           <p style={{ textIndent: '40px' }}>
             {' '}
-            <strong>First Name:</strong> John{' '}
+            <strong>First Name:</strong> {residentData.assigned_caregivers[0].first_name}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
             {' '}
-            <strong>Last Name:</strong> Doe{' '}
+            <strong>Last Name:</strong> {residentData.assigned_caregivers[0].last_name}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong> Email</strong> 25
+            <strong> Email</strong> {residentData.assigned_caregivers[0].email}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>Phone Number:</strong> +1 4392854151{' '}
+            <strong>Phone Number:</strong> {residentData.assigned_caregivers[0].phone}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>Role :</strong> Caregiver{' '}
+            <strong>Role :</strong> {residentData.assigned_caregivers[0].role}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>Manager :</strong>{' '}
+            <strong>Manager :</strong> None{' '}
           </p>
         </Card>
       </Grid>
@@ -176,17 +205,17 @@ export default function ResidentInDetailPage(props) {
           </Typography>
           <p style={{ textIndent: '40px' }}>
             {' '}
-            <strong>First Name:</strong> John Doe{' '}
+            <strong>Caregiver:</strong> {residentInterventionData.chronoogical_notes[0].employee}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
             {' '}
-            <strong>Last Name:</strong> John Doe{' '}
+            <strong>Goal:</strong> {residentInterventionData.chronoogical_notes[0].goal}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong> Age:</strong> 25
+            <strong> Motive:</strong>  {residentInterventionData.chronoogical_notes[0].motive} {' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>Borough:</strong> Montreal{' '}
+            <strong>Observations</strong> {residentInterventionData.chronoogical_notes[0].observations}{' '}
           </p>
         </Card>
       </Grid>
@@ -199,20 +228,20 @@ export default function ResidentInDetailPage(props) {
           </Typography>
           <p style={{ textIndent: '40px' }}>
             {' '}
-            <strong>Goal Title</strong> Title{' '}
+            <strong>Goal Title</strong> {residentInterventionData.goals[0].goal_title}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
             {' '}
-            <strong>Goal Description</strong> desrctption{' '}
+            <strong>Goal Description</strong> {residentInterventionData.goals[0].description}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong> Health Aspect:</strong> None
+            <strong> Health Aspect:</strong> {residentInterventionData.goals[0].health_aspects} {' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>Status:</strong> in progress{' '}
+            <strong>Status:</strong> {residentInterventionData.goals[0].status}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>Term:</strong> Short{' '}
+            <strong>Term:</strong> {residentInterventionData.goals[0].term}{' '}
           </p>
         </Card>
       </Grid>
@@ -225,17 +254,17 @@ export default function ResidentInDetailPage(props) {
           </Typography>
           <p style={{ textIndent: '40px' }}>
             {' '}
-            <strong>Name:</strong> Name
+            <strong>Name:</strong>  {residentInterventionData.significant_persons[0].name}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
             {' '}
-            <strong>Email:</strong> jd@mail.com{' '}
+            <strong>Email:</strong> {residentInterventionData.significant_persons[0].email}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong> phone:</strong> +1 24151245
+            <strong> phone:</strong> {residentInterventionData.significant_persons[0].phone}{' '}
           </p>
           <p style={{ textIndent: '40px' }}>
-            <strong>relation:</strong> Montreal{' '}
+            <strong>relation:</strong> {residentInterventionData.significant_persons[0].relation}{' '}
           </p>
         </Card>
       </Grid>

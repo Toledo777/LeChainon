@@ -38,6 +38,7 @@ export default function UserPage() {
 
   const [showProfile, setShowProfile] = useState(false); 
   const [data, setData] = useState([]);
+  const [interventionData, setinterventionData] = useState([]);
   const [rowData, setUserData] = useState(null);
   
   const handleSort = (event, id) => {
@@ -47,24 +48,49 @@ export default function UserPage() {
       setOrderBy(id);
     }
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
+
   const fetchData = async () => {
     try {
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uid: 'ValzUqVvvhSaarbzQmL179tTBBb2' })
+        body: JSON.stringify({ uid: 'ls3YYsM7BxctoAXDJzMAMgG4lAg1' })
     };
       const response = await fetch('http://localhost:8000/caregiver/get-user-data', requestOptions);
       const result = await response.json();
       console.log(result.residents);
+      console.log("test");
       setData(result.residents);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchInterventionData = async () => {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2' })
+    };
+    console.log("test");
+      const response = await fetch('http://localhost:8000/intervention/get-intervention-plan', requestOptions);
+      const result = await response.json();
+     
+      console.log(result.plan);
+      setinterventionData(result.plan);
+    } catch (error) {
+      console.log("test exception");
+      console.error('Error fetching data:', error);
+    }
+  };
+  useEffect(() => {
+    console.log("test useEffect")
+    fetchInterventionData();
+  }, []);
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = users.map((n) => n.name);
@@ -114,12 +140,12 @@ export default function UserPage() {
 
   const notFound = !dataFiltered.length && !!filterName;
 
-  const handleViewProfile = (rowData) => {
+  const handleViewProfile = (selectedUserData) => {
     setShowProfile(true); 
-    console.log(rowData)
-    setUserData(rowData);
+    console.log(selectedUserData);
+    setUserData(selectedUserData);
   };
-
+  
   return (
     <Container>
         {!showProfile ? (
@@ -195,9 +221,11 @@ export default function UserPage() {
         />
       </Card>
       </>
+
       ) : (
-        <ResidentInDetailPage residentData={rowData}  />
+        <ResidentInDetailPage residentData={rowData} residentInterventionData = {interventionData}  />
       )}
     </Container>
+    
   );
 }

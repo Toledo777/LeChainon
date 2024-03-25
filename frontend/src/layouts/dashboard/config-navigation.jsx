@@ -8,12 +8,12 @@ const icon = (name) => (
 
 const navConfig = [
   {
-    title: 'dashboard',
+    title: 'Admin Dashboard',
     path: '/',
     icon: icon('ic_analytics'),
   },
   {
-    title: 'My Dashboard',
+    title: 'Resident Dashboard',
     path: '/resident-dash',
     icon: icon('ic_analytics'),
   },
@@ -46,12 +46,7 @@ const navConfig = [
     title: 'login',
     path: '/login',
     icon: icon('ic_lock'),
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: icon('ic_disabled'),
-  },
+  }
 ];
 
 export default navConfig;

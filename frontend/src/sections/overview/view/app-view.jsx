@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
@@ -10,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import { Radio, RadioGroup, FormControlLabel  } from '@mui/material';
 import AppHousingOccupancy from '../app-housing-occupancy';
 import AppGoalStats from '../app-goal-stats';
-import AppEventsOfDay from '../app-items-by-date';
 import AppMonthlyStats from '../app-monthly-stats';
 import EventsTimeline from '../app-events-timeline';
 import AppWidgetSummary from '../app-widget-summary';
@@ -351,8 +351,7 @@ export default function AppView() {
                   value: "Mental Health",
                   icon: <img src="/assets/icons/glass/ic_glass_health.png" width={32} alt="health_aspect" />,
                 },
-                
-              ]}
+                ]}
             />
           </Grid>
 

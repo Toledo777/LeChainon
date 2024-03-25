@@ -88,14 +88,14 @@ export default function ResidentView() {
 
     const [goals, setGoals] = useState([
       {
-        goal_title: "Greatly Reduce Alcohol Consumption and Quit Smoking",
+        goal_title: "Reduce Alcohol Consumption and Quit Smoking",
         health_aspects: "Mental",
         means: "Become aware of alcohol consumption and risk factors that lead to it",
         status: "In progress",
         term: "Short"
       },
       {
-        goal_title: "Finding Apartment/Affordable Housing",
+        goal_title: "Find Apartment/Affordable Housing",
         health_aspects: "Economic Health",
         means: "Determine which organization or resources she could use to access housing with her income.",
         status: "Future",
@@ -267,7 +267,7 @@ export default function ResidentView() {
               .slice(0, 3)
               .map(event => ({
                 id: event.uid,
-                title: `${event.resident}, ${event.title}, ${event.communication_method}`,
+                title: `${event.title}, ${event.communication_method}`,
                 type: event.type,
                 time: new Date(event.follow_up_date),
             }))}
@@ -283,7 +283,7 @@ export default function ResidentView() {
               .slice(0, 3)
               .map(event => ({
                 id: event.uid,
-                title: `${event.resident}, ${event.title}, ${event.communication_method}`,
+                title: `${event.title}, ${event.communication_method}`,
                 type: event.type,
                 time: new Date(event.follow_up_date),
             }))}
@@ -302,7 +302,6 @@ export default function ResidentView() {
                 title: event.title,
                 date: new Date(event.follow_up_date),
                 notes: event.notes,
-                resident: event.resident,
                 type: event.type,
                 communication_method: event.communication_method
               }))

@@ -10,6 +10,7 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Iconify from 'src/components/iconify';
 import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
 
 
 // ----------------------------------------------------------------------
@@ -41,16 +42,48 @@ export default function AppGoalSummary({ title, list, onNewItem, ...other }) {
         }}
       >
 
-        {list.map((goal) => (
+        {list
+        .sort((a, b) => b.term.localeCompare(a.term))
+        .map((goal) => (
           <Paper
             key={goal.title}
             variant="outlined"
-            sx={{ py: 2.5, textAlign: 'left', borderStyle: 'dashed' }}
+            sx={{ p: 4, textAlign: 'left', borderStyle: 'dashed' }}
           >
-            <Typography variant="h5">{goal.goal_title}</Typography>
-            <Typography variant="h6">Term: {goal.term}</Typography>
-            <Typography variant="h6">Status: {goal.status}</Typography>
-            <Typography variant="h6">Health aspects: {goal.health_aspects}</Typography>
+            <Typography variant="h6" sx={{ mb: 3 }}>{goal.goal_title}</Typography>
+            
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+              <Grid item xs={12}>
+                <Grid container spacing={2}>
+                  <Grid item style={{ flex: '0 1 auto' }}>
+                    <Typography variant="h7">Term:</Typography>
+                  </Grid>
+                  <Grid item style={{ flex: '1 1 auto' }}>
+                    <Typography variant="body1">{goal.term}</Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={2}>
+                  <Grid item style={{ flex: '0 1 auto' }}>
+                    <Typography variant="h7">Status:</Typography>
+                  </Grid>
+                  <Grid item style={{ flex: '1 1 auto' }}>
+                    <Typography variant="body1">{goal.status}</Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={2}>
+                  <Grid item style={{ flex: '0 1 auto' }}>
+                    <Typography variant="h7">Health aspects:</Typography>
+                  </Grid>
+                  <Grid item style={{ flex: '1 1 auto' }}>
+                    <Typography variant="body1">{goal.health_aspects}</Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
 
             <Typography variant="body1" sx={{ color: 'text.secondary' }}>
               {goal.means}

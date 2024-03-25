@@ -8,6 +8,7 @@ import Iconify from 'src/components/iconify';
 
 export default function ResourceView() {
   const [messages, setMessages] = useState([]);
+  const [senderName, setSenderName] = useState('');
   const inputRef = useRef(null);
   const chatboxRef = useRef(null);
 
@@ -22,8 +23,9 @@ export default function ResourceView() {
       const result = await response.json();
       console.log(result);
 
-      // Extract the chats from the result and set them in the state
-      if (result && result.chats) {
+      // Extract the sender's name from the result
+      if (result && result.chats && result.chats.length > 0) {
+        setSenderName(result.chats[0].from); // Assuming sender's name is stored in the 'from' field of the first chat message
         setMessages(
           result.chats.map((chat) => ({
             text: chat.text,
@@ -74,6 +76,10 @@ export default function ResourceView() {
 
   return (
     <Container style={{ display: 'flex', flexDirection: 'column', height: '70vh', width: '100%' }}>
+      {/* Display sender's name */}
+      <Typography variant="h6" gutterBottom>
+        Jane Doe's Chat
+      </Typography>
       <div
         ref={chatboxRef}
         style={{

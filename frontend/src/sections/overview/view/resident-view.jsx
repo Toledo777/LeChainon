@@ -15,6 +15,8 @@ import AppWidgetSummary from '../app-widget-summary';
 import AppItemsOfDay from '../app-items-by-date';
 import AppGoalStats from '../app-goal-stats';
 import AppGoalSummary from '../app-goal-summary';
+import AppEntitySummary from '../app-entity-summary';
+
 
 // ----------------------------------------------------------------------
 
@@ -86,7 +88,6 @@ export default function ResidentView() {
 
     const [goals, setGoals] = useState([
       {
-        uid: 1,
         goal_title: "Greatly Reduce Alcohol Consumption and Quit Smoking",
         health_aspects: "Mental",
         means: "Become aware of alcohol consumption and risk factors that lead to it",
@@ -94,7 +95,6 @@ export default function ResidentView() {
         term: "Short"
       },
       {
-        uid: 2,
         goal_title: "Finding Apartment/Affordable Housing",
         health_aspects: "Economic Health",
         means: "Determine which organization or resources she could use to access housing with her income.",
@@ -102,7 +102,6 @@ export default function ResidentView() {
         term: "Long"
       },
       {
-        uid: 3,
         goal_title: "Start Hockey Training and Join Team",
         health_aspects: "Physical",
         means: "Conduct research related to sportts activities. Obtain sources of funding if possible.",
@@ -320,6 +319,25 @@ export default function ResidentView() {
             }))}
           />
         </Grid>
+
+        <Grid xs={12} md={6} lg={6}>
+          <AppEntitySummary
+            title="Treatment Team"
+            list={treatmentTeam}
+            type="treatmentTeam"
+            onNewItem={(item) => setTreatmentTeam((prev) => [...prev, item])}
+          />
+        </Grid>
+
+        <Grid xs={12} md={6} lg={6}>
+          <AppEntitySummary
+            title="Significant Persons"
+            list={significantPersons}
+            type="significantPersons"
+            onNewItem={(item) => setSignificantPersons((prev) => [...prev, item])}
+          />
+        </Grid>
+
       </Grid>
     </Container>
   );

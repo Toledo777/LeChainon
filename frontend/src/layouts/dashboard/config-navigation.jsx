@@ -27,11 +27,11 @@ const navConfig = [
     path: '/user',
     icon: icon('ic_user'),
   },
-  {
-    title: 'product',
-    path: '/products',
-    icon: icon('ic_cart'),
-  },
+  // {
+  //   title: 'product',
+  //   path: '/products',
+  //   icon: icon('ic_cart'),
+  // },
   {
     title: 'resources',
     path: '/resource',
@@ -46,7 +46,7 @@ const navConfig = [
     title: 'login',
     path: '/login',
     icon: icon('ic_lock'),
-  }
+  },
 ];
 
 export default navConfig;

@@ -11,7 +11,6 @@ export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const ResidentDashPage = lazy(() => import('src/pages/resident-dash'));
 export const ResidentInDetailPage = lazy(() => import('src/pages/residentInDetail'));
-export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const InterventionPlan = lazy(() => import('src/pages/intervention'));
 
 // ----------------------------------------------------------------------
@@ -51,10 +50,6 @@ export default function Router() {
     {
       path: 'login',
       element: <LoginPage />,
-    },
-    {
-      path: '404',
-      element: <Page404 />,
     },
     {
       path: '*',

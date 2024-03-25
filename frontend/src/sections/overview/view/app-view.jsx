@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';

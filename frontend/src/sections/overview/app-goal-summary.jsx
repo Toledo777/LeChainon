@@ -6,8 +6,10 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
 
-import { fShortenNumber } from 'src/utils/format-number';
 import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+import Iconify from 'src/components/iconify';
+
 
 // ----------------------------------------------------------------------
 
@@ -70,23 +72,12 @@ export default function AppGoalSummary({ title, list, onNewItem, ...other }) {
               Create New
             </Button>
 
-            {createNewItem && (
-              itemType === 'note' ?
-                <NewNoteForm
-                date={selectedDate}
-                onCancel={handleCreateNewClick} 
-                onSubmit={handleFormSubmit} 
-                /> 
-              :
-                <NewEventForm
-                date={selectedDate}
-                onCancel={handleCreateNewClick}
-                onSubmit={handleFormSubmit}
-                />
-            )}
+            {/* {createNewItem && (
+              
+            )} */}
         </Box>
         </>
-        )}
+      )}
 
     </Card>
   );

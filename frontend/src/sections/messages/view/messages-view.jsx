@@ -8,39 +8,62 @@ import Iconify from 'src/components/iconify';
 
 export default function ResourceView() {
   const [messages, setMessages] = useState([]);
+  const [senderName, setSenderName] = useState('');
   const inputRef = useRef(null);
   const chatboxRef = useRef(null);
 
-  // Function to generate fake messages sent by a sender
-  const generateFakeMessages = () => {
-    const numMessages = 1;
-    const fakeMessages = [];
-
-    // Generate each fake message
-    for (let i = 0; i < numMessages; i += 1) {
-      // Pretend to have a sender named "Fake Sender"
-      const fakeMessage = {
-        text: `Fake message ${i + 1}`,
-        sender: 'Fake Sender',
+  const fetchData = async () => {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2' }),
       };
-      fakeMessages.push(fakeMessage);
-    }
+      const response = await fetch('http://localhost:8000/chat/get', requestOptions);
+      const result = await response.json();
+      console.log(result);
 
-    // Set the fake messages in the state
-    setMessages((prevMessages) => [...prevMessages, ...fakeMessages]);
+      // Extract the sender's name from the result
+      if (result && result.chats && result.chats.length > 0) {
+        setSenderName(result.chats[0].from); // Assuming sender's name is stored in the 'from' field of the first chat message
+        setMessages(
+          result.chats.map((chat) => ({
+            text: chat.text,
+            sender: chat.from === 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2' ? 'user' : 'other',
+          }))
+        );
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
-  // Simulate sending fake messages at intervals
+  // Fetch initial data on component mount
   useEffect(() => {
-    const intervalId = setInterval(generateFakeMessages, 10000); // Send fake messages every 10 seconds
-    return () => clearInterval(intervalId);
+    fetchData();
   }, []);
 
-  const handleMessageSend = () => {
+  const handleMessageSend = async () => {
     const message = inputRef.current.value;
     if (message) {
-      setMessages((prevMessages) => [...prevMessages, { text: message, sender: 'user' }]);
+      const newMessage = { text: message, sender: 'user' };
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
       inputRef.current.value = '';
+
+      try {
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            uid1: 'YM5Qa9IGAAO7dyD0JJgTrTVyk0U2',
+            uid2: 'ls3YYsM7BxctoAXDJzMAMgG4lAg1',
+            text: message,
+          }),
+        };
+        await fetch('http://localhost:8000/chat/create', requestOptions);
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
     }
   };
 
@@ -53,6 +76,10 @@ export default function ResourceView() {
 
   return (
     <Container style={{ display: 'flex', flexDirection: 'column', height: '70vh', width: '100%' }}>
+      {/* Display sender's name */}
+      <Typography variant="h6" gutterBottom>
+        Jane Doe's Chat
+      </Typography>
       <div
         ref={chatboxRef}
         style={{

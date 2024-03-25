@@ -40,33 +40,37 @@ export default function AppItemsOfDay({ title, subheader, itemType, selectedDate
           </Stack>
         </Scrollbar>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+        {onNewItem && (
+          <>
+          <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Box sx={{ p: 2, textAlign: 'right' }}>
-          <Button
-            size="small"
-            color="inherit"
-            endIcon={<Iconify icon={createNewItem ? "eva:arrow-ios-downward-fill" : "eva:arrow-ios-forward-fill"} />}
-            onClick={handleCreateNewClick}
-          >
-            Create New
-          </Button>
+          <Box sx={{ p: 2, textAlign: 'right' }}>
+            <Button
+              size="small"
+              color="inherit"
+              endIcon={<Iconify icon={createNewItem ? "eva:arrow-ios-downward-fill" : "eva:arrow-ios-forward-fill"} />}
+              onClick={handleCreateNewClick}
+            >
+              Create New
+            </Button>
 
-          {createNewItem && (
-            itemType === 'note' ?
-              <NewNoteForm
-              date={selectedDate}
-              onCancel={handleCreateNewClick} 
-              onSubmit={handleFormSubmit} 
-              /> 
-            :
-              <NewEventForm
-              date={selectedDate}
-              onCancel={handleCreateNewClick}
-              onSubmit={handleFormSubmit}
-              />
-          )}
-      </Box>
+            {createNewItem && (
+              itemType === 'note' ?
+                <NewNoteForm
+                date={selectedDate}
+                onCancel={handleCreateNewClick} 
+                onSubmit={handleFormSubmit} 
+                /> 
+              :
+                <NewEventForm
+                date={selectedDate}
+                onCancel={handleCreateNewClick}
+                onSubmit={handleFormSubmit}
+                />
+            )}
+        </Box>
+        </>
+        )}
     </Card>
   );
 }
@@ -74,6 +78,7 @@ export default function AppItemsOfDay({ title, subheader, itemType, selectedDate
 AppItemsOfDay.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
+  selectedDate: PropTypes.instanceOf(Date),
   itemType : PropTypes.string,
   onNewItem: PropTypes.func,
   list: PropTypes.array.isRequired,

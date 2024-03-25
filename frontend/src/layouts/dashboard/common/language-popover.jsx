@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Popover from '@mui/material/Popover';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 
 // ----------------------------------------------------------------------
 
@@ -11,17 +12,10 @@ const LANGS = [
   {
     value: 'en',
     label: 'English',
-    icon: '/assets/icons/ic_flag_en.svg',
-  },
-  {
-    value: 'de',
-    label: 'German',
-    icon: '/assets/icons/ic_flag_de.svg',
   },
   {
     value: 'fr',
     label: 'French',
-    icon: '/assets/icons/ic_flag_fr.svg',
   },
 ];
 
@@ -43,16 +37,15 @@ export default function LanguagePopover() {
       <IconButton
         onClick={handleOpen}
         sx={{
-          width: 40,
+          width: 100, // Adjust the width as needed
           height: 40,
           ...(open && {
             bgcolor: 'action.selected',
           }),
         }}
       >
-        <img src={LANGS[0].icon} alt={LANGS[0].label} />
+        <Typography variant="body1">Languages</Typography>
       </IconButton>
-
       <Popover
         open={!!open}
         anchorEl={open}
@@ -71,12 +64,10 @@ export default function LanguagePopover() {
         {LANGS.map((option) => (
           <MenuItem
             key={option.value}
-            selected={option.value === LANGS[0].value}
+            selected={option.value === 'en'} // Assuming 'en' is selected by default
             onClick={() => handleClose()}
             sx={{ typography: 'body2', py: 1 }}
           >
-            <Box component="img" alt={option.label} src={option.icon} sx={{ width: 28, mr: 2 }} />
-
             {option.label}
           </MenuItem>
         ))}

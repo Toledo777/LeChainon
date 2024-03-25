@@ -17,74 +17,71 @@ import AppGoalStats from '../app-goal-stats';
 import AppGoalSummary from '../app-goal-summary';
 import AppEntitySummary from '../app-entity-summary';
 
-
 // ----------------------------------------------------------------------
 
-
 export default function ResidentView() {
+  /* eslint-disable no-unused-vars */
 
-    /* eslint-disable no-unused-vars */
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-    const [selectedDate, setSelectedDate] = useState(new Date());
+  const [tasks, setTasks] = useState([
+    {
+      id: 1,
+      details: 'Read a book on quitting cigarettes',
+    },
+    {
+      id: 2,
+      details: 'Read a book on quitting alcohol',
+    },
+    {
+      id: 3,
+      details: 'Read a book on Happiness',
+    },
+    {
+      id: 4,
+      details: ' Try eating healthy',
+    },
 
-    const [tasks, setTasks] = useState([
-      {
-        id : 1,
-        details: "Read a book on quitting cigarettes",
-      },
-      {
-        id : 2,
-        details: "Read a book on quitting alcohol",
-      },
-      {
-        id : 3,
-        details: "Read a book on Happiness",
-      },
-      {
-        id : 4,
-        details: " Try eating healthy",
-      },
-      
-      {
-        id : 5,
-        details: "Read a book on quitting gambaling ",
-      },
-      {
-        id : 6,
-        details: "Start learning Yoga",
-      }
-    ]);
+    {
+      id: 5,
+      details: 'Read a book on quitting gambaling ',
+    },
+    {
+      id: 6,
+      details: 'Start learning Yoga',
+    },
+  ]);
 
-    const [treatmentTeam, setTreatmentTeam] = useState([
-      {
-        name: "Dr. Beau Gessel",
-        role: "Psychologist",
-        phone: "555-555-5555",
-        email: "abc@gmail.com",
-        address: "4865 St Laurent Blvd, Montreal, QC H2W 1Z8"
-      },
-      {
-        name: "Dr. Kimberly Bertotti",
-        role: "Therapist",
-        phone: "777-777-7777",
-        email: "def@gmail.com",
-        address: "4701 Rue Saint-Urbain, Montreal, QC H2T 2V9"
-      },
-      {
-        name: "Dr. Anita Figueras",
-        role: "Social Worker",
-        phone: "999-999-9999",
-        email: "ghi@gmail.com",
-        address: "1045 Av. Laurier O, Outremont, QC H2V 2L1"
-      },
-      {
-        name: "Dr. Christian Scriver",
-        role: "MD (specialty)",
-        phone: "000-000-0000",
-        email: "jkl@gmail.com",
-        address: "9187 Bd de l'Acadie, Montreal, QC H4N 3K1"
-      }
-    ]);
+  const [treatmentTeam, setTreatmentTeam] = useState([
+    {
+      name: 'Dr. Beau Gessel',
+      role: 'Psychologist',
+      phone: '555-555-5555',
+      email: 'abc@gmail.com',
+      address: '4865 St Laurent Blvd, Montreal, QC H2W 1Z8',
+    },
+    {
+      name: 'Dr. Kimberly Bertotti',
+      role: 'Therapist',
+      phone: '777-777-7777',
+      email: 'def@gmail.com',
+      address: '4701 Rue Saint-Urbain, Montreal, QC H2T 2V9',
+    },
+    {
+      name: 'Dr. Anita Figueras',
+      role: 'Social Worker',
+      phone: '999-999-9999',
+      email: 'ghi@gmail.com',
+      address: '1045 Av. Laurier O, Outremont, QC H2V 2L1',
+    },
+    {
+      name: 'Dr. Christian Scriver',
+      role: 'MD (specialty)',
+      phone: '000-000-0000',
+      email: 'jkl@gmail.com',
+      address: "9187 Bd de l'Acadie, Montreal, QC H4N 3K1",
+    },
+  ]);
 
     const [goals, setGoals] = useState([
       {
@@ -110,94 +107,89 @@ export default function ResidentView() {
       }
     ]);
 
-    const [significantPersons, setSignificantPersons] = useState([
-      {
-        relation: "Mother",
-        name: "John Doe",
-        phone: "555-555-5555",
-        email: "abc@gmail.com"
-      },
-      {
-        relation: "Daughter",
-        name: "Jason D",
-        phone: "555-522-5555",
-        email: "pqr@gmail.com"
-      },
-      {
-        relation: "Sister",
-        name: "Janna Rachel",
-        phone: "555-555-5523",
-        email: "qwe@gmail.com"
-      }
-      
-    ])
+  const [significantPersons, setSignificantPersons] = useState([
+    {
+      relation: 'Mother',
+      name: 'John Doe',
+      phone: '555-555-5555',
+      email: 'abc@gmail.com',
+    },
+    {
+      relation: 'Daughter',
+      name: 'Jason D',
+      phone: '555-522-5555',
+      email: 'pqr@gmail.com',
+    },
+    {
+      relation: 'Sister',
+      name: 'Janna Rachel',
+      phone: '555-555-5523',
+      email: 'qwe@gmail.com',
+    },
+  ]);
 
-    const [communityServices, setCommunityServices] = useState([
-      {
-        org_name: 'The Shield of Montreal',
-        contact: 'Fransis Coles',
-        phone: '541-333-234',
-        email: 'abc@gmail.com',
-        mission: 'Providing a safe and empowering environment',
-      },
-      {
-        org_name: 'The Shield of Mont Royal',
-        contact: 'Ranndy',
-        phone: '233-456-1234',
-        email: 'qwr@gmail.com',
-        mission: 'Providing protection to refugees',
-      },
-      {
-        org_name: 'West Island Women Shelter',
-        contact: 'John Matthews',
-        phone: '234-344-2344',
-        email: 'pqr@gmail.com',
-        mission: 'Providing protection to refugees',
-      }
-    ])
+  const [communityServices, setCommunityServices] = useState([
+    {
+      org_name: 'The Shield of Montreal',
+      contact: 'Fransis Coles',
+      phone: '541-333-234',
+      email: 'abc@gmail.com',
+      mission: 'Providing a safe and empowering environment',
+    },
+    {
+      org_name: 'The Shield of Mont Royal',
+      contact: 'Ranndy',
+      phone: '233-456-1234',
+      email: 'qwr@gmail.com',
+      mission: 'Providing protection to refugees',
+    },
+    {
+      org_name: 'West Island Women Shelter',
+      contact: 'John Matthews',
+      phone: '234-344-2344',
+      email: 'pqr@gmail.com',
+      mission: 'Providing protection to refugees',
+    },
+  ]);
 
-    const [events, setEvents] = useState([
-      {
-        title: 'crisis intervention 1',
-        follow_up_date: 'Fri, 22 Mar 2024 04:00:00 GMT',
-        communication_method: 'In person',
-        type: 'appointment',
-        notes: 'Resident was in a crisis situation and needed immediate intervention.',
-        resident: 'Jane Doe'
-      },
-      {
-        title: 'follow up 1',
-        follow_up_date: 'Fri, 15 Mar 2024 12:00:00 GMT',
-        communication_method: 'Email',
-        type: 'checkpoint',
-        notes: 'Routine check up. Resident is progressing well.',
-        resident: 'Jane Doe'
-      },
-      {
-        title: 'follow up 2',
-        follow_up_date: 'Fri, 29 Mar 2024 04:00:00 GMT',
-        communication_method: 'In person',
-        type: 'checkpoint',
-        notes: 'Routine check up. Active listening and helped client with employment issue.',
-        resident: 'Jane Doe'
-      }
-    ])
+  const [events, setEvents] = useState([
+    {
+      title: 'crisis intervention 1',
+      follow_up_date: 'Fri, 22 Mar 2024 04:00:00 GMT',
+      communication_method: 'In person',
+      type: 'appointment',
+      notes: 'Resident was in a crisis situation and needed immediate intervention.',
+      resident: 'Jane Doe',
+    },
+    {
+      title: 'follow up 1',
+      follow_up_date: 'Fri, 15 Mar 2024 12:00:00 GMT',
+      communication_method: 'Email',
+      type: 'checkpoint',
+      notes: 'Routine check up. Resident is progressing well.',
+      resident: 'Jane Doe',
+    },
+    {
+      title: 'follow up 2',
+      follow_up_date: 'Fri, 29 Mar 2024 04:00:00 GMT',
+      communication_method: 'In person',
+      type: 'checkpoint',
+      notes: 'Routine check up. Active listening and helped client with employment issue.',
+      resident: 'Jane Doe',
+    },
+  ]);
 
-    const state = {
-      'date': '04-03-2024'
-    }
+  const state = {
+    date: '04-03-2024',
+  };
 
-    const mark = [
-      '08-05-2024',
-      '03-03-2024',
-      '05-03-2024'
-  ]
+  const mark = ['08-05-2024', '03-03-2024', '05-03-2024'];
 
   return (
     <Container maxWidth="xl">
-      <Typography variant="h4" sx={{ mb: 5 }}>
+      {/* <Typography variant="h4" sx={{ mb: 5 }}>
         Hi, Welcome back 👋
-      </Typography>
+      </Typography> */}
 
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
@@ -244,33 +236,38 @@ export default function ResidentView() {
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Grid
+          xs={12}
+          md={6}
+          lg={4}
+          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
           <Calendar
-            style={{ height: 800, width: 800}}
+            style={{ height: 800, width: 800 }}
             onChange={setSelectedDate}
             value={selectedDate}
             // eslint-disable-next-line consistent-return
             tileClassName={({ date, view }) => {
-                if(mark.find(x => x === moment(date).format("DD-MM-YYYY"))) {
-                return  'highlight'
+              if (mark.find((x) => x === moment(date).format('DD-MM-YYYY'))) {
+                return 'highlight';
               }
             }}
-            />
+          />
         </Grid>
 
         <Grid xs={12} md={6} lg={4}>
           <EventsTimeline
             title="Upcoming Events"
             list={events
-              .filter(event => new Date(event.follow_up_date) > new Date())
+              .filter((event) => new Date(event.follow_up_date) > new Date())
               .sort((a, b) => new Date(b.follow_up_date) - new Date(a.follow_up_date))
               .slice(0, 3)
-              .map(event => ({
+              .map((event) => ({
                 id: event.uid,
                 title: `${event.title}, ${event.communication_method}`,
                 type: event.type,
                 time: new Date(event.follow_up_date),
-            }))}
+              }))}
           />
         </Grid>
 
@@ -278,34 +275,32 @@ export default function ResidentView() {
           <EventsTimeline
             title="Recent Events"
             list={events
-              .filter(event => new Date(event.follow_up_date) <= new Date())
+              .filter((event) => new Date(event.follow_up_date) <= new Date())
               .sort((a, b) => new Date(b.follow_up_date) - new Date(a.follow_up_date))
               .slice(0, 3)
-              .map(event => ({
+              .map((event) => ({
                 id: event.uid,
                 title: `${event.title}, ${event.communication_method}`,
                 type: event.type,
                 time: new Date(event.follow_up_date),
-            }))}
+              }))}
           />
         </Grid>
-        
+
         <Grid xs={12} md={6} lg={4}>
           <AppItemsOfDay
             title={`Events (${moment(selectedDate).format('DD/MM/YYYY')})`}
             itemType="event"
             selectedDate={selectedDate}
-            list={
-              events
-              .filter(event => moment(event.follow_up_date).isSame(selectedDate, 'day'))
-              .map(event => ({
+            list={events
+              .filter((event) => moment(event.follow_up_date).isSame(selectedDate, 'day'))
+              .map((event) => ({
                 title: event.title,
                 date: new Date(event.follow_up_date),
                 notes: event.notes,
                 type: event.type,
-                communication_method: event.communication_method
-              }))
-            }
+                communication_method: event.communication_method,
+              }))}
           />
         </Grid>
 
@@ -336,7 +331,6 @@ export default function ResidentView() {
             onNewItem={(item) => setSignificantPersons((prev) => [...prev, item])}
           />
         </Grid>
-
       </Grid>
     </Container>
   );

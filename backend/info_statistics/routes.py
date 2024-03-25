@@ -10,11 +10,7 @@ def get_resident_personal_stats():
 
     document = {}
 
-    d = (
-        db.collection("follow_ups")
-        .where("uid", "==", request.form.get("uid")).stream()
-        
-    )
+    d = db.collection("follow_ups").where("uid", "==", request.json.get("uid")).stream()
 
     t = []
 
@@ -30,14 +26,14 @@ def get_resident_personal_stats():
             datetime.now().date()
             - (
                 db.collection("residents")
-                .where("uid", "==", request.form.get("uid"))
+                .where("uid", "==", request.json.get("uid"))
                 .get()[0]
                 .to_dict()["stay_start_date"]
             ).date()
         ).split(" ")[0]
     )
 
-    d = db.collection("goals").where("uid", "==", request.form.get("uid")).stream()
+    d = db.collection("goals").where("uid", "==", request.json.get("uid")).stream()
 
     t = []
 
@@ -86,9 +82,9 @@ def get_global_stats():
     document["caregivers"] = temp
     document["no_of_caregivers"] = len(temp)
 
-    document["avg_ratio_caretaker_residents"] = round((
-        document["no_of_caregivers"] / document["no_of_residents"]
-    ) * 100, 2)
+    document["avg_ratio_caretaker_residents"] = round(
+        (document["no_of_caregivers"] / document["no_of_residents"]) * 100, 2
+    )
 
     document["no_of_first_timers"] = 0
 

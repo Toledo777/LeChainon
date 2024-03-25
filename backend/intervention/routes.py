@@ -7,7 +7,7 @@ intervention_bp = Blueprint("intervention", __name__, url_prefix="/intervention"
 
 @intervention_bp.route("/get-intervention-plan", methods=["POST"])
 def get_intervention_plan():
-    uid = request.form.get("uid")
+    uid = request.json.get("uid")
 
     document = db.collection("residents").where("uid", "==", uid).get()[0].to_dict()
 
@@ -58,8 +58,9 @@ def get_intervention_plan():
 
     temp = []
     for a in document["follow_ups"]:
-        a["caregiver"] = db.collection("employees").where("uid", "==", a["cuid"]).get()[0].to_dict()
-        
+        a["caregiver"] = (
+            db.collection("employees").where("uid", "==", a["cuid"]).get()[0].to_dict()
+        )
 
     temp = []
     for a in document["assigned_caregivers"]:
@@ -68,3 +69,33 @@ def get_intervention_plan():
     document["assigned_caregivers"] = temp
 
     return jsonify({"message": "Success!", "plan": document}), 200
+
+
+@intervention_bp.route("/create-intervention-plan", methods=["POST"])
+def create_intervention_plan():
+    uid = request.json.get("uid")
+    cuid = request.json.get("cuid")
+
+    chronological_notes = request.json.get("chronological_notes")
+    chronological_notes["uid"] = uid
+    chronological_notes["cuid"] = cuid
+    follow_ups = request.json.get("follow_ups")
+    follow_ups["uid"] = uid
+    follow_ups["cuid"] = cuid
+    goals = request.json.get("goals")
+    goals["uid"] = uid
+    goals["cuid"] = cuid
+    significant_persons = request.json.get("significant_persons")
+    significant_persons["uid"] = uid
+    significant_persons["cuid"] = cuid
+    interventions = request.json.get("interventions")
+    interventions["uid"] = uid
+    interventions["cuid"] = cuid
+
+    db.collection("chronoogical_notes").add(chronological_notes)
+    db.collection("follow_ups").add(follow_ups)
+    db.collection("goals").add(goals)
+    db.collection("significant_persons").add(significant_persons)
+    db.collection("interventions").add(interventions)
+
+    return jsonify({"message": "Success!"}), 200

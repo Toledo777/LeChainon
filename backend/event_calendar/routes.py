@@ -9,10 +9,10 @@ calendar_bp = Blueprint("calendar", __name__, url_prefix="/calendar")
 def create_reminder():
     data = {
         "start_time": datetime.strptime(
-            request.form.get("start_time"), "%Y-%m-%d %H:%M:%S"
+            request.json.get("start_time"), "%Y-%m-%d %H:%M:%S"
         ),
-        "title": request.form.get("title"),
-        "uid": request.form.get("uid").split(","),
+        "title": request.json.get("title"),
+        "uid": request.json.get("uid").split(","),
         "isReminder": True,
     }
 
@@ -24,14 +24,15 @@ def create_reminder():
 def create_meeting():
     data = {
         "start_time": datetime.strptime(
-            request.form.get("start_time"), "%Y-%m-%d %H:%M:%S"
+            request.json.get("start_time"), "%Y-%m-%d %H:%M:%S"
         ),
         "end_time": datetime.strptime(
-            request.form.get("end_time"), "%Y-%m-%d %H:%M:%S"
+            request.json.get("end_time"), "%Y-%m-%d %H:%M:%S"
         ),
-        "title": request.form.get("title"),
-        "link": request.form.get("link"),
-        "uid": request.form.get("uid").split(","),
+        "title": request.json.get("title"),
+        "link": request.json.get("link"),
+        "uid": request.json.get("uid"),
+        "cuid": request.json.get("cuid"),
         "isReminder": False,
     }
 
@@ -43,7 +44,7 @@ def create_meeting():
 def get_user_data():
     docs_ref = (
         db.collection("calendar")
-        .where("uid", "array_contains", request.form.get("uid"))
+        .where("uid", "array_contains", request.json.get("uid"))
         .stream()
     )
 

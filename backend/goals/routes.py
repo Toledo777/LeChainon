@@ -7,13 +7,13 @@ goals_bp = Blueprint("goals", __name__, url_prefix="/goals")
 @goals_bp.route("/create", methods=["POST"])
 def create_goals():
     data = {
-        "description": request.form.get("description"),
-        "goal_title": request.form.get("goal_title"),
-        "health_aspects": request.form.get("health_aspects"),
-        "means": request.form.get("means"),
-        "status": request.form.get("status"),
-        "term": request.form.get("term"),
-        "uid": request.form.get("uid"),
+        "description": request.json.get("description"),
+        "goal_title": request.json.get("goal_title"),
+        "health_aspects": request.json.get("health_aspects"),
+        "means": request.json.get("means"),
+        "status": request.json.get("status"),
+        "term": request.json.get("term"),
+        "uid": request.json.get("uid"),
     }
 
     db.collection("goals").add(data)

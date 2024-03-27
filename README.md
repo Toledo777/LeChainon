@@ -3,6 +3,9 @@ La ChaîNet is a web application designed for the non-profit Le Chaînon. The ap
 
 Residents each have their own personalized dashboard as well allowing them to view, track and edit their personal goals in one place.
 
+![](https://github.com/Toledo777/LeChainon/blob/main/resident_dashboard.gif)
+![](https://github.com/Toledo777/LeChainon/blob/main/caretaker_dashboard.gif)
+
 # References
 
 React UI templated provided by Material UI with MIT License

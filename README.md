@@ -3,14 +3,14 @@
 <br />
 <div align="center">
   <a href="https://github.com/Toledo777/LeChainon">
-    <img src="logo.png" alt="Logo" width="80" height="80">
+    <img src="logo2.png" alt="Logo" width="100" height="100">
   </a>
 
 <h2 align="center">La ChaîNet</h2>
-<p align="center">
-    WINNER OF MORGAN STANLEY CODE TO GIVE 2024 HACKATHON
-    <br />
-</p>
+<h3 align="center">
+    Winner of Morgan Stanley Code to Give 2024 Hackathon 🏆
+    
+</h3>
 
 </div>
 
